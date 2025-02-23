@@ -144,10 +144,13 @@ export default function NewWallet() {
                 if (mnemonics) {
                   localStorage.setItem(
                     "SATOSHIS_APP_MNEMONICS",
-                    mnemonics + [mnemonic]
+                    JSON.stringify(mnemonics + [mnemonic])
                   );
                 } else {
-                  localStorage.setItem("SATOSHIS_APP_MNEMONICS", mnemonic);
+                  localStorage.setItem(
+                    "SATOSHIS_APP_MNEMONICS",
+                    JSON.stringify([mnemonic])
+                  );
                 }
                 router.push("/wallets");
               } else {
