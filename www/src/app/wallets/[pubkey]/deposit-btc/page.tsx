@@ -36,7 +36,7 @@ export default function WalletDepositBtc() {
       <h1 className="text-4xl sm:text-6xl font-bold text-center mb-2 max-w-xs sm:max-w-md">
         Satoshis App
       </h1>
-      <div className="flex flex-col sm:flex-row gap-4 mt-10">
+      <div className="flex flex-col gap-4 mt-10">
         <p>
           You can use this address to safely deposit BTC into your wallet. Your
           balance will increase when the deposit is confirmed!

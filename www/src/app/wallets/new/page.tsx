@@ -50,7 +50,7 @@ export default function NewWallet() {
         Satoshis App
       </h1>
       {step === -1 ? (
-        <div className="flex flex-col sm:flex-row gap-4 mt-10">
+        <div className="flex flex-col gap-4 mt-10">
           <p>
             Uh oh... You entered the wrong word. We are going to start over and
             generate a new mnemonic phrase for you.
@@ -67,7 +67,7 @@ export default function NewWallet() {
           </Link>
         </div>
       ) : step === 0 ? (
-        <div className="flex flex-col sm:flex-row gap-4 mt-10">
+        <div className="flex flex-col gap-4 mt-10">
           <p>
             We generated a random mnemonic phrase for you. It is very important
             to write it down and keep it safe.
@@ -104,7 +104,7 @@ export default function NewWallet() {
           </Link>
         </div>
       ) : step === 1 ? (
-        <div className="flex flex-col sm:flex-row gap-4 mt-10">
+        <div className="flex flex-col gap-4 mt-10">
           <p>You will need your passphrase to recover your wallet.</p>
           <p>Enter the {prettyIndex(index1)} word here:</p>
           <input
@@ -129,7 +129,7 @@ export default function NewWallet() {
           </Link>
         </div>
       ) : step === 2 ? (
-        <div className="flex flex-col sm:flex-row gap-4 mt-10">
+        <div className="flex flex-col gap-4 mt-10">
           <p>Without it you will lose access to your funds.</p>
           <p>Enter the {prettyIndex(index2)} word here:</p>
           <input

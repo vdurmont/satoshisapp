@@ -17,7 +17,7 @@ export default function WalletSendLn() {
         Satoshis App
       </h1>
       {invoice ? null : (
-        <div className="flex flex-col sm:flex-row gap-4 mt-10">
+        <div className="flex flex-col gap-4 mt-10">
           <p>
             Use this form to pay a Lightning Network invoice from your wallet.
           </p>

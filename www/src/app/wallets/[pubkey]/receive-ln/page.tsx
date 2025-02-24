@@ -20,7 +20,7 @@ export default function WalletReceiveLn() {
         Satoshis App
       </h1>
       {invoice ? null : (
-        <div className="flex flex-col sm:flex-row gap-4 mt-10">
+        <div className="flex flex-col gap-4 mt-10">
           <p>
             Use this form to generate a Lightning Network invoice for receiving
             funds in your wallet.
@@ -70,7 +70,7 @@ export default function WalletReceiveLn() {
         </Link>
       )}
       {invoice ? (
-        <div className="flex flex-col sm:flex-row gap-4 mt-10">
+        <div className="flex flex-col gap-4 mt-10">
           <p>Share this Lightning Network invoice with the sender!</p>
           <p className="break-words max-w-[250px]">{invoice}</p>
         </div>

@@ -11,7 +11,7 @@ export default function Home() {
       <h2 className="text-xl sm:text-2xl text-center mb-2 max-w-xs sm:max-w-md">
         ₿itcoin forever. A wallet for the future.
       </h2>
-      <div className="flex flex-col sm:flex-row gap-4 mt-10">
+      <div className="flex flex-col gap-4 mt-10">
         <Link
           className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5"
           href="/wallets"

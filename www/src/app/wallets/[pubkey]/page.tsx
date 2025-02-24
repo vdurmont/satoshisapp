@@ -39,9 +39,13 @@ export default function Wallet() {
       <h1 className="text-4xl sm:text-6xl font-bold text-center mb-2 max-w-xs sm:max-w-md">
         Satoshis App
       </h1>
-      <div className="flex flex-col sm:flex-row gap-4 mt-10">
-        <p className="break-words max-w-[250px]">Pubkey: {wallet.pubkey}</p>
-        <p>Balance: {String(wallet.balance)} sats</p>
+      <div className="flex flex-col gap-4 mt-10">
+        <p className="break-words max-w-[250px]">
+          <b>Pubkey:</b> {wallet.pubkey}
+        </p>
+        <p>
+          <b>Balance:</b> {String(wallet.balance)} sats
+        </p>
       </div>
       <Link
         className="rounded-full mt-5 border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5"
