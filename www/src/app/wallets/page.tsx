@@ -5,6 +5,7 @@ import { Network } from "@buildonspark/spark-js-sdk/utils";
 import { useEffect, useState } from "react";
 import { FaArrowRight } from "react-icons/fa";
 import { useRouter } from "next/navigation";
+import Link from "next/link";
 
 type Wallet = {
   sparkWallet: SparkWallet;
@@ -57,19 +58,19 @@ export default function Wallets() {
             </div>
           </div>
         ))}
-        <a
+        <Link
           className="rounded-full mt-5 border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5"
           href="/wallets/new"
         >
           Create a wallet
-        </a>
-        <a
+        </Link>
+        <Link
           className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5"
           href="/wallets/recover"
         >
           Recover a wallet
-        </a>
-        <a
+        </Link>
+        <Link
           className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5"
           href="#"
           onClick={(e) => {
@@ -79,7 +80,7 @@ export default function Wallets() {
           }}
         >
           Clear wallets
-        </a>
+        </Link>
       </div>
     </div>
   );

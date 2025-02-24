@@ -5,6 +5,7 @@ import { Network } from "@buildonspark/spark-js-sdk/utils";
 import { useEffect, useState } from "react";
 import { useParams } from "next/navigation";
 import { FaArrowDown, FaArrowUp } from "react-icons/fa";
+import Link from "next/link";
 
 type Wallet = {
   sparkWallet: SparkWallet;
@@ -42,26 +43,26 @@ export default function Wallet() {
         <p className="break-words max-w-[250px]">Pubkey: {wallet.pubkey}</p>
         <p>Balance: {String(wallet.balance)} sats</p>
       </div>
-      <a
+      <Link
         className="rounded-full mt-5 border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5"
         href={`/wallets/${pubkey}/send`}
       >
         <FaArrowUp />
         Send
-      </a>
-      <a
+      </Link>
+      <Link
         className="rounded-full mt-5 border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5"
         href={`/wallets/${pubkey}/receive`}
       >
         <FaArrowDown />
         Receive
-      </a>
-      <a
+      </Link>
+      <Link
         className="rounded-full mt-5 border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5"
         href="/wallets"
       >
         Go back to wallets
-      </a>
+      </Link>
     </div>
   );
 }

@@ -5,6 +5,7 @@ import { Network } from "@buildonspark/spark-js-sdk/utils";
 import { useEffect, useState } from "react";
 import { useParams } from "next/navigation";
 import { FaArrowDown } from "react-icons/fa";
+import Link from "next/link";
 
 export default function WalletReceiveLn() {
   const [invoice, setInvoice] = useState<string | null>(null);
@@ -47,7 +48,7 @@ export default function WalletReceiveLn() {
         </div>
       )}
       {invoice ? null : (
-        <a
+        <Link
           className="rounded-full mt-5 border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5"
           href="#"
           onClick={(e) => {
@@ -67,7 +68,7 @@ export default function WalletReceiveLn() {
           }}
         >
           Create invoice
-        </a>
+        </Link>
       )}
       {invoice ? (
         <div className="flex flex-col sm:flex-row gap-4 mt-10">
@@ -76,7 +77,7 @@ export default function WalletReceiveLn() {
         </div>
       ) : null}
       {invoice ? (
-        <a
+        <Link
           className="rounded-full mt-5 border border-solid border-transparent transition-colors flex items-center justify-center bg-background text-foreground gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5"
           href={`/wallets/${pubkey}`}
           onClick={(e) => {
@@ -90,14 +91,14 @@ export default function WalletReceiveLn() {
           }}
         >
           {copyText}
-        </a>
+        </Link>
       ) : null}
-      <a
+      <Link
         className="rounded-full mt-5 border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5"
         href={`/wallets/${pubkey}`}
       >
         Go back
-      </a>
+      </Link>
     </div>
   );
 }

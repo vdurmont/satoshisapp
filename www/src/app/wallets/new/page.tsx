@@ -3,6 +3,7 @@
 import { useState } from "react";
 import bip39 from "bip39";
 import { useRouter } from "next/navigation";
+import Link from "next/link";
 
 function getRandomInt(min: number, max: number) {
   return Math.floor(Math.random() * (max - min + 1)) + min;
@@ -49,7 +50,7 @@ export default function NewWallet() {
             Uh oh... You entered the wrong word. We are going to start over and
             generate a new mnemonic phrase for you.
           </p>
-          <a
+          <Link
             className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5"
             href="#"
             onClick={(e) => {
@@ -58,7 +59,7 @@ export default function NewWallet() {
             }}
           >
             Start over
-          </a>
+          </Link>
         </div>
       ) : step === 0 ? (
         <div className="flex flex-col sm:flex-row gap-4 mt-10">
@@ -71,7 +72,7 @@ export default function NewWallet() {
             className="font-mono p-2 border border-gray-300 rounded w-full h-32 text-black"
             readOnly
           />
-          <a
+          <Link
             className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5"
             href="#"
             onClick={(e) => {
@@ -85,8 +86,8 @@ export default function NewWallet() {
             }}
           >
             {copyText}
-          </a>
-          <a
+          </Link>
+          <Link
             className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5"
             href="#"
             onClick={(e) => {
@@ -95,7 +96,7 @@ export default function NewWallet() {
             }}
           >
             Next
-          </a>
+          </Link>
         </div>
       ) : step === 1 ? (
         <div className="flex flex-col sm:flex-row gap-4 mt-10">
@@ -107,7 +108,7 @@ export default function NewWallet() {
             value={word1}
             onChange={(e) => setWord1(e.target.value)}
           />
-          <a
+          <Link
             className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5"
             href="#"
             onClick={(e) => {
@@ -120,7 +121,7 @@ export default function NewWallet() {
             }}
           >
             Next
-          </a>
+          </Link>
         </div>
       ) : step === 2 ? (
         <div className="flex flex-col sm:flex-row gap-4 mt-10">
@@ -132,7 +133,7 @@ export default function NewWallet() {
             value={word2}
             onChange={(e) => setWord2(e.target.value)}
           />
-          <a
+          <Link
             className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5"
             href="#"
             onClick={(e) => {
@@ -159,7 +160,7 @@ export default function NewWallet() {
             }}
           >
             Next
-          </a>
+          </Link>
         </div>
       ) : null}
     </div>
