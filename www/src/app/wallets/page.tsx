@@ -4,6 +4,7 @@ import { SparkWallet } from "@buildonspark/spark-js-sdk";
 import { Network } from "@buildonspark/spark-js-sdk/utils";
 import { useEffect, useState } from "react";
 import { FaArrowRight } from "react-icons/fa";
+import { useRouter } from "next/navigation";
 
 type Wallet = {
   sparkWallet: SparkWallet;
@@ -13,6 +14,7 @@ type Wallet = {
 
 export default function Wallets() {
   const [wallets, setWallets] = useState<Array<Wallet>>([]);
+  const router = useRouter();
 
   useEffect(() => {
     const rawMnemonics = localStorage.getItem("SATOSHIS_APP_MNEMONICS");
@@ -39,7 +41,13 @@ export default function Wallets() {
       </h1>
       <div className="flex flex-col sm:flex-row gap-4 mt-10">
         {wallets.map((wallet, index) => (
-          <div key={index} className="flex flex-row gap-2">
+          <div
+            key={index}
+            className="flex flex-row gap-2 cursor-pointer"
+            onClick={() => {
+              router.push(`/wallets/${wallet.pubkey}`);
+            }}
+          >
             <div className="flex flex-col">
               <p>{wallet.pubkey.substring(0, 20)}...</p>
               <p>Balance: {String(wallet.balance)} sats</p>
