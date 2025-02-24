@@ -4,7 +4,7 @@ import { SparkWallet } from "@buildonspark/spark-js-sdk";
 import { Network } from "@buildonspark/spark-js-sdk/utils";
 import { useEffect, useState } from "react";
 import { useParams } from "next/navigation";
-import { FaArrowDown } from "react-icons/fa";
+import { FaArrowDown, FaArrowUp } from "react-icons/fa";
 
 type Wallet = {
   sparkWallet: SparkWallet;
@@ -44,10 +44,17 @@ export default function Wallet() {
       </div>
       <a
         className="rounded-full mt-5 border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5"
-        href={`/wallets/${pubkey}/deposit`}
+        href={`/wallets/${pubkey}/send`}
+      >
+        <FaArrowUp />
+        Send
+      </a>
+      <a
+        className="rounded-full mt-5 border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5"
+        href={`/wallets/${pubkey}/receive`}
       >
         <FaArrowDown />
-        Deposit from Bitcoin
+        Receive
       </a>
     </div>
   );

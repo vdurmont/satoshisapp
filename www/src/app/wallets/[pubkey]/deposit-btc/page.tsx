@@ -7,7 +7,7 @@ import { useEffect, useState } from "react";
 import { useParams } from "next/navigation";
 import { FaArrowDown } from "react-icons/fa";
 
-export default function WalletDeposit() {
+export default function WalletDepositBtc() {
   const [address, setAddress] = useState<Address | null>(null);
   const [copyText, setCopyText] = useState("Copy address to clipboard");
   const params = useParams();
