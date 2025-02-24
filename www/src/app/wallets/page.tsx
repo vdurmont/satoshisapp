@@ -6,6 +6,7 @@ import { useEffect, useState } from "react";
 import { FaArrowRight } from "react-icons/fa";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
+import { clearMnemonics, getMnemonics } from "@/app/storage";
 
 type Wallet = {
   sparkWallet: SparkWallet;
@@ -18,18 +19,21 @@ export default function Wallets() {
   const router = useRouter();
 
   useEffect(() => {
-    const rawMnemonics = localStorage.getItem("SATOSHIS_APP_MNEMONICS");
-    const mnemonics = rawMnemonics ? JSON.parse(rawMnemonics) : [];
+    const mnemonics = getMnemonics();
     for (const mnemonic of mnemonics) {
       const sparkWallet = new SparkWallet(Network.REGTEST);
-      sparkWallet.createSparkWallet(mnemonic).then(() => {
+      sparkWallet.createSparkWallet(mnemonic).then((pubkey) => {
         sparkWallet.getBalance().then((balance) => {
-          sparkWallet.getMasterPubKey().then((masterPubKey) => {
-            const pubkey = Buffer.from(masterPubKey).toString("hex");
-            setWallets((w) =>
-              w.concat([{ sparkWallet, balance: balance as bigint, pubkey }])
-            );
-          });
+          setWallets((w) =>
+            w
+              .concat([{ sparkWallet, balance: balance as bigint, pubkey }])
+              .reduce((acc, cur) => {
+                if (!acc.find((w) => w.pubkey === cur.pubkey)) {
+                  acc.push(cur);
+                }
+                return acc;
+              }, [] as Wallet[])
+          );
         });
       });
     }
@@ -75,7 +79,7 @@ export default function Wallets() {
           href="#"
           onClick={(e) => {
             e.preventDefault();
-            localStorage.removeItem("SATOSHIS_APP_MNEMONICS");
+            clearMnemonics();
             location.reload();
           }}
         >

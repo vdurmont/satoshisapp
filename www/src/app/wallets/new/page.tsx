@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { generateMnemonic } from "bip39";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
+import { addMnemonic } from "@/app/storage";
 
 function getRandomInt(min: number, max: number) {
   return Math.floor(Math.random() * (max - min + 1)) + min;
@@ -144,20 +145,7 @@ export default function NewWallet() {
             onClick={(e) => {
               e.preventDefault();
               if (mnemonic.split(" ")[index2 - 1] === word2) {
-                const mnemonics = localStorage.getItem(
-                  "SATOSHIS_APP_MNEMONICS"
-                );
-                if (mnemonics) {
-                  localStorage.setItem(
-                    "SATOSHIS_APP_MNEMONICS",
-                    JSON.stringify(mnemonics + [mnemonic])
-                  );
-                } else {
-                  localStorage.setItem(
-                    "SATOSHIS_APP_MNEMONICS",
-                    JSON.stringify([mnemonic])
-                  );
-                }
+                addMnemonic(mnemonic);
                 router.push("/wallets");
               } else {
                 setStep(-1);
