@@ -1,5 +1,7 @@
 "use client";
 
+import Link from "next/link";
+
 export default function Home() {
   return (
     <div className="flex flex-col items-center justify-center min-h-screen p-8 sm:p-20 font-[family-name:var(--font-geist-sans)]">
@@ -10,18 +12,18 @@ export default function Home() {
         ₿itcoin forever. A wallet for the future.
       </h2>
       <div className="flex flex-col sm:flex-row gap-4 mt-10">
-        <a
+        <Link
           className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5"
           href="/wallets"
         >
           Your wallet(s)
-        </a>
-        <a
+        </Link>
+        <Link
           className="rounded-full border border-solid border-black transition-colors flex items-center justify-center bg-white text-black gap-2 hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5"
           href="/features"
         >
           Learn more
-        </a>
+        </Link>
       </div>
     </div>
   );

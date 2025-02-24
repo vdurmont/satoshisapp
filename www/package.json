@@ -9,7 +9,7 @@
     "lint": "next lint"
   },
   "dependencies": {
-    "@buildonspark/spark-js-sdk": "file:../../spark/sdks/spark-js-sdk/package.tgz",
+    "@buildonspark/spark-js-sdk": "file:spark-js-sdk-package.tgz",
     "bip39": "^3.1.0",
     "next": "15.1.7",
     "react": "^19.0.0",

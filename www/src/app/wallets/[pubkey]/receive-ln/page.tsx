@@ -2,9 +2,8 @@
 
 import { SparkWallet } from "@buildonspark/spark-js-sdk";
 import { Network } from "@buildonspark/spark-js-sdk/utils";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useParams } from "next/navigation";
-import { FaArrowDown } from "react-icons/fa";
 import Link from "next/link";
 
 export default function WalletReceiveLn() {

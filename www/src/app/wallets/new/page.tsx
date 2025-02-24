@@ -1,7 +1,7 @@
 "use client";
 
-import { useState } from "react";
-import bip39 from "bip39";
+import { useEffect, useState } from "react";
+import { generateMnemonic } from "bip39";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 
@@ -23,21 +23,26 @@ function prettyIndex(index: number) {
 }
 
 export default function NewWallet() {
-  const [mnemonic] = useState(bip39.generateMnemonic());
+  const [mnemonic, setMnemonic] = useState("");
   const [copyText, setCopyText] = useState("Copy to clipboard");
   const [step, setStep] = useState(0);
   const router = useRouter();
 
-  const [index1] = useState(getRandomInt(1, 12));
+  const [index1, setIndex1] = useState(0);
   const [word1, setWord1] = useState("");
-
-  let index2Candidate = getRandomInt(1, 12);
-  while (index2Candidate === index1) {
-    index2Candidate = getRandomInt(1, 12);
-  }
-
-  const [index2, setIndex2] = useState(index2Candidate);
+  const [index2, setIndex2] = useState(0);
   const [word2, setWord2] = useState("");
+
+  useEffect(() => {
+    setMnemonic(generateMnemonic());
+    const i1 = getRandomInt(1, 12);
+    setIndex1(i1);
+    let index2Candidate = getRandomInt(1, 12);
+    while (index2Candidate === i1) {
+      index2Candidate = getRandomInt(1, 12);
+    }
+    setIndex2(index2Candidate);
+  }, [setMnemonic, setIndex1, setIndex2]);
 
   return (
     <div className="flex flex-col items-center justify-start min-h-screen p-8 sm:p-20 font-[family-name:var(--font-geist-sans)]">

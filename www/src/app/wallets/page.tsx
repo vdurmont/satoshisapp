@@ -9,7 +9,7 @@ import Link from "next/link";
 
 type Wallet = {
   sparkWallet: SparkWallet;
-  balance: BigInt;
+  balance: bigint;
   pubkey: string;
 };
 
@@ -21,13 +21,13 @@ export default function Wallets() {
     const rawMnemonics = localStorage.getItem("SATOSHIS_APP_MNEMONICS");
     const mnemonics = rawMnemonics ? JSON.parse(rawMnemonics) : [];
     for (const mnemonic of mnemonics) {
-      const wallet = new SparkWallet(Network.REGTEST);
-      wallet.createSparkWallet(mnemonic).then(() => {
-        wallet.getBalance().then((balance) => {
-          wallet.getMasterPubKey().then((masterPubKey) => {
+      const sparkWallet = new SparkWallet(Network.REGTEST);
+      sparkWallet.createSparkWallet(mnemonic).then(() => {
+        sparkWallet.getBalance().then((balance) => {
+          sparkWallet.getMasterPubKey().then((masterPubKey) => {
             const pubkey = Buffer.from(masterPubKey).toString("hex");
-            setWallets(
-              wallets.concat([{ sparkWallet: wallet, balance, pubkey }])
+            setWallets((w) =>
+              w.concat([{ sparkWallet, balance: balance as bigint, pubkey }])
             );
           });
         });

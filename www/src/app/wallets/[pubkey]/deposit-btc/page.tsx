@@ -2,10 +2,10 @@
 
 import { SparkWallet } from "@buildonspark/spark-js-sdk";
 import { Network } from "@buildonspark/spark-js-sdk/utils";
+// @ts-expect-error will fix later maybe
 import { Address } from "@buildonspark/spark-js-sdk/proto/spark";
 import { useEffect, useState } from "react";
 import { useParams } from "next/navigation";
-import { FaArrowDown } from "react-icons/fa";
 
 export default function WalletDepositBtc() {
   const [address, setAddress] = useState<Address | null>(null);
@@ -25,7 +25,7 @@ export default function WalletDepositBtc() {
         });
       });
     });
-  }, [setAddress]);
+  }, [pubkey, setAddress]);
 
   if (!address) {
     return <div>Loading...</div>;

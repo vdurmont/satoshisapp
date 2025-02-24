@@ -9,7 +9,7 @@ import Link from "next/link";
 
 type Wallet = {
   sparkWallet: SparkWallet;
-  balance: BigInt;
+  balance: bigint;
   pubkey: string;
 };
 
@@ -25,10 +25,10 @@ export default function Wallet() {
     const sparkWallet = new SparkWallet(Network.REGTEST);
     sparkWallet.createSparkWalletFromSeed(pubkey).then(() => {
       sparkWallet.getBalance().then((balance) => {
-        setWallet({ sparkWallet, balance, pubkey });
+        setWallet({ sparkWallet, balance: balance as bigint, pubkey });
       });
     });
-  }, [setWallet]);
+  }, [pubkey, setWallet]);
 
   if (!wallet) {
     return <div>Loading...</div>;

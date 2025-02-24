@@ -2,12 +2,10 @@
 
 import { SparkWallet } from "@buildonspark/spark-js-sdk";
 import { Network } from "@buildonspark/spark-js-sdk/utils";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useParams } from "next/navigation";
-import { FaArrowDown } from "react-icons/fa";
 
 export default function WalletSendLn() {
-  const [copyText, setCopyText] = useState("Copy invoice to clipboard");
   const [amount, setAmount] = useState("0");
   const [invoice, setInvoice] = useState("");
   const params = useParams();
