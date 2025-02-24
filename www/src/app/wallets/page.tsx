@@ -3,6 +3,7 @@
 import { SparkWallet } from "@buildonspark/spark-js-sdk";
 import { Network } from "@buildonspark/spark-js-sdk/utils";
 import { useEffect, useState } from "react";
+import { FaArrowRight } from "react-icons/fa";
 
 type Wallet = {
   sparkWallet: SparkWallet;
@@ -37,16 +38,15 @@ export default function Wallets() {
         Satoshis App
       </h1>
       <div className="flex flex-col sm:flex-row gap-4 mt-10">
-        <p className="mb-5">
-          You have {wallets.length} wallet{wallets.length > 1 ? "s" : ""}.
-        </p>
         {wallets.map((wallet, index) => (
-          <div
-            key={index}
-            className="flex flex-col gap-2  border-solid border-color-primary border-2 p-4 rounded-lg"
-          >
-            <p>{wallet.pubkey.substring(0, 20)}...</p>
-            <p>Balance: {String(wallet.balance)} sats</p>
+          <div key={index} className="flex flex-row gap-2">
+            <div className="flex flex-col">
+              <p>{wallet.pubkey.substring(0, 20)}...</p>
+              <p>Balance: {String(wallet.balance)} sats</p>
+            </div>
+            <div className="flex flex-col items-center justify-center ml-4">
+              <FaArrowRight />
+            </div>
           </div>
         ))}
         <a
@@ -63,7 +63,12 @@ export default function Wallets() {
         </a>
         <a
           className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5"
-          href="/wallets/clear"
+          href="#"
+          onClick={(e) => {
+            e.preventDefault();
+            localStorage.removeItem("SATOSHIS_APP_MNEMONICS");
+            location.reload();
+          }}
         >
           Clear wallets
         </a>
