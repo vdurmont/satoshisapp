@@ -5,8 +5,8 @@ import { Network } from "@buildonspark/spark-js-sdk/utils";
 import { useEffect, useState } from "react";
 import { FaArrowRight } from "react-icons/fa";
 import { useRouter } from "next/navigation";
-import Link from "next/link";
 import { clearMnemonics, getMnemonics } from "@/app/storage";
+import Button from "@/app/components/button";
 
 type Wallet = {
   sparkWallet: SparkWallet;
@@ -62,29 +62,21 @@ export default function Wallets() {
             </div>
           </div>
         ))}
-        <Link
-          className="rounded-full mt-5 border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5"
-          href="/wallets/new"
-        >
+        <Button kind="primary" href="/wallets/new">
           Create a wallet
-        </Link>
-        <Link
-          className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5"
-          href="/wallets/recover"
-        >
+        </Button>
+        <Button kind="primary" href="/wallets/recover">
           Recover a wallet
-        </Link>
-        <Link
-          className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5"
-          href="#"
-          onClick={(e) => {
-            e.preventDefault();
+        </Button>
+        <Button
+          kind="secondary"
+          onClick={() => {
             clearMnemonics();
             location.reload();
           }}
         >
           Clear wallets
-        </Link>
+        </Button>
       </div>
     </div>
   );

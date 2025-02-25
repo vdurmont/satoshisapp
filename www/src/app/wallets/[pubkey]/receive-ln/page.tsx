@@ -4,7 +4,7 @@ import { SparkWallet } from "@buildonspark/spark-js-sdk";
 import { Network } from "@buildonspark/spark-js-sdk/utils";
 import { useState } from "react";
 import { useParams } from "next/navigation";
-import Link from "next/link";
+import Button from "@/app/components/button";
 
 export default function WalletReceiveLn() {
   const [invoice, setInvoice] = useState<string | null>(null);
@@ -47,11 +47,9 @@ export default function WalletReceiveLn() {
         </div>
       )}
       {invoice ? null : (
-        <Link
-          className="rounded-full mt-5 border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5"
-          href="#"
-          onClick={(e) => {
-            e.preventDefault();
+        <Button
+          kind="primary"
+          onClick={() => {
             const sparkWallet = new SparkWallet(Network.REGTEST);
             sparkWallet.createSparkWalletFromSeed(pubkey).then(() => {
               sparkWallet
@@ -67,7 +65,7 @@ export default function WalletReceiveLn() {
           }}
         >
           Create invoice
-        </Link>
+        </Button>
       )}
       {invoice ? (
         <div className="flex flex-col gap-4 mt-10">
@@ -76,11 +74,9 @@ export default function WalletReceiveLn() {
         </div>
       ) : null}
       {invoice ? (
-        <Link
-          className="rounded-full mt-5 border border-solid border-transparent transition-colors flex items-center justify-center bg-background text-foreground gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5"
-          href={`/wallets/${pubkey}`}
-          onClick={(e) => {
-            e.preventDefault();
+        <Button
+          kind="secondary"
+          onClick={() => {
             navigator.clipboard.writeText(invoice).then(() => {
               setCopyText("Copied!");
               setTimeout(() => {
@@ -90,14 +86,11 @@ export default function WalletReceiveLn() {
           }}
         >
           {copyText}
-        </Link>
+        </Button>
       ) : null}
-      <Link
-        className="rounded-full mt-5 border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5"
-        href={`/wallets/${pubkey}`}
-      >
+      <Button kind="primary" href={`/wallets/${pubkey}`}>
         Go back
-      </Link>
+      </Button>
     </div>
   );
 }

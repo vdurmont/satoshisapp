@@ -11,6 +11,7 @@
   "dependencies": {
     "@buildonspark/spark-js-sdk": "file:spark-js-sdk-package.tgz",
     "bip39": "^3.1.0",
+    "classnames": "^2.5.1",
     "next": "15.1.7",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",

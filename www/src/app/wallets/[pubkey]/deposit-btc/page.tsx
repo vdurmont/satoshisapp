@@ -6,6 +6,7 @@ import { Network } from "@buildonspark/spark-js-sdk/utils";
 import { Address } from "@buildonspark/spark-js-sdk/proto/spark";
 import { useEffect, useState } from "react";
 import { useParams } from "next/navigation";
+import Button from "@/app/components/button";
 
 export default function WalletDepositBtc() {
   const [address, setAddress] = useState<Address | null>(null);
@@ -49,11 +50,9 @@ export default function WalletDepositBtc() {
           {Buffer.from(address.verifyingKey).toString("hex")}
         </p>
       </div>
-      <a
-        className="rounded-full mt-5 border border-solid border-transparent transition-colors flex items-center justify-center bg-background text-foreground gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5"
-        href={`/wallets/${pubkey}`}
-        onClick={(e) => {
-          e.preventDefault();
+      <Button
+        kind="secondary"
+        onClick={() => {
           navigator.clipboard.writeText(address.address).then(() => {
             setCopyText("Copied!");
             setTimeout(() => {
@@ -63,13 +62,10 @@ export default function WalletDepositBtc() {
         }}
       >
         {copyText}
-      </a>
-      <a
-        className="rounded-full mt-5 border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5"
-        href={`/wallets/${pubkey}`}
-      >
+      </Button>
+      <Button kind="primary" href={`/wallets/${pubkey}`}>
         Go back
-      </a>
+      </Button>
     </div>
   );
 }

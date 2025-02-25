@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { validateMnemonic } from "bip39";
 import { useRouter } from "next/navigation";
-import Link from "next/link";
+import Button from "@/app/components/button";
 import { addMnemonic } from "@/app/storage";
 
 export default function RecoverWallet() {
@@ -22,12 +22,9 @@ export default function RecoverWallet() {
           onChange={(e) => setMnemonic(e.target.value)}
           className="font-mono p-2 border border-gray-300 rounded w-full h-32 text-black"
         />
-        <Link
-          className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5"
-          href="#"
-          onClick={(e) => {
-            e.preventDefault();
-
+        <Button
+          kind="primary"
+          onClick={() => {
             if (!validateMnemonic(mnemonic)) {
               alert("Invalid mnemonic phrase.");
               return;
@@ -38,13 +35,10 @@ export default function RecoverWallet() {
           }}
         >
           Recover
-        </Link>
-        <Link
-          className="rounded-full mt-5 border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5"
-          href="/wallets"
-        >
+        </Button>
+        <Button kind="secondary" href="/wallets">
           Go back
-        </Link>
+        </Button>
       </div>
     </div>
   );

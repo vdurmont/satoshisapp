@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import { generateMnemonic } from "bip39";
 import { useRouter } from "next/navigation";
-import Link from "next/link";
+import Button from "@/app/components/button";
 import { addMnemonic } from "@/app/storage";
 
 function getRandomInt(min: number, max: number) {
@@ -56,16 +56,14 @@ export default function NewWallet() {
             Uh oh... You entered the wrong word. We are going to start over and
             generate a new mnemonic phrase for you.
           </p>
-          <Link
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5"
-            href="#"
-            onClick={(e) => {
-              e.preventDefault();
+          <Button
+            kind="primary"
+            onClick={() => {
               location.reload();
             }}
           >
             Start over
-          </Link>
+          </Button>
         </div>
       ) : step === 0 ? (
         <div className="flex flex-col gap-4 mt-10">
@@ -78,11 +76,9 @@ export default function NewWallet() {
             className="font-mono p-2 border border-gray-300 rounded w-full h-32 text-black"
             readOnly
           />
-          <Link
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5"
-            href="#"
-            onClick={(e) => {
-              e.preventDefault();
+          <Button
+            kind="secondary"
+            onClick={() => {
               navigator.clipboard.writeText(mnemonic).then(() => {
                 setCopyText("Copied!");
                 setTimeout(() => {
@@ -92,17 +88,15 @@ export default function NewWallet() {
             }}
           >
             {copyText}
-          </Link>
-          <Link
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5"
-            href="#"
-            onClick={(e) => {
-              e.preventDefault();
+          </Button>
+          <Button
+            kind="primary"
+            onClick={() => {
               setStep(1);
             }}
           >
             Next
-          </Link>
+          </Button>
         </div>
       ) : step === 1 ? (
         <div className="flex flex-col gap-4 mt-10">
@@ -114,11 +108,9 @@ export default function NewWallet() {
             value={word1}
             onChange={(e) => setWord1(e.target.value)}
           />
-          <Link
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5"
-            href="#"
-            onClick={(e) => {
-              e.preventDefault();
+          <Button
+            kind="primary"
+            onClick={() => {
               if (mnemonic.split(" ")[index1 - 1] === word1) {
                 setStep(2);
               } else {
@@ -127,7 +119,7 @@ export default function NewWallet() {
             }}
           >
             Next
-          </Link>
+          </Button>
         </div>
       ) : step === 2 ? (
         <div className="flex flex-col gap-4 mt-10">
@@ -139,11 +131,9 @@ export default function NewWallet() {
             value={word2}
             onChange={(e) => setWord2(e.target.value)}
           />
-          <Link
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5"
-            href="#"
-            onClick={(e) => {
-              e.preventDefault();
+          <Button
+            kind="primary"
+            onClick={() => {
               if (mnemonic.split(" ")[index2 - 1] === word2) {
                 addMnemonic(mnemonic);
                 router.push("/wallets");
@@ -153,7 +143,7 @@ export default function NewWallet() {
             }}
           >
             Next
-          </Link>
+          </Button>
         </div>
       ) : null}
     </div>

@@ -5,7 +5,7 @@ import { Network } from "@buildonspark/spark-js-sdk/utils";
 import { useEffect, useState } from "react";
 import { useParams } from "next/navigation";
 import { FaArrowDown, FaArrowUp } from "react-icons/fa";
-import Link from "next/link";
+import Button from "@/app/components/button";
 
 type Wallet = {
   sparkWallet: SparkWallet;
@@ -47,26 +47,17 @@ export default function Wallet() {
           <b>Balance:</b> {String(wallet.balance)} sats
         </p>
       </div>
-      <Link
-        className="rounded-full mt-5 border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5"
-        href={`/wallets/${pubkey}/send`}
-      >
+      <Button kind="primary" href={`/wallets/${pubkey}/send`}>
         <FaArrowUp />
         Send
-      </Link>
-      <Link
-        className="rounded-full mt-5 border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5"
-        href={`/wallets/${pubkey}/receive`}
-      >
+      </Button>
+      <Button kind="primary" href={`/wallets/${pubkey}/receive`}>
         <FaArrowDown />
         Receive
-      </Link>
-      <Link
-        className="rounded-full mt-5 border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5"
-        href="/wallets"
-      >
+      </Button>
+      <Button kind="secondary" href="/wallets">
         Go back to wallets
-      </Link>
+      </Button>
     </div>
   );
 }
