@@ -5,12 +5,17 @@ import { Network } from "@buildonspark/spark-sdk/utils";
 import { useEffect, useState } from "react";
 import { FaArrowRight, FaSync } from "react-icons/fa";
 import { useRouter } from "next/navigation";
-import { clearMnemonics, getMnemonics } from "@/app/storage";
+import {
+  clearStoredWallets,
+  getAllStoredWallets,
+  type StoredWallet,
+} from "@/app/storage";
 import Button from "@/app/components/button";
 import ButtonsContainer from "@/app/components/buttonsContainer";
 import Page from "@/app/components/page";
 
 type Wallet = {
+  id: string;
   sparkWallet: SparkWallet;
   balance: bigint;
   pubkey: string;
@@ -35,12 +40,12 @@ function Box(props: BoxProps) {
 }
 
 type WalletProps = {
-  mnemonic: string;
+  storedWallet: StoredWallet;
 };
 
 function WalletItem(props: WalletProps) {
   const [wallet, setWallet] = useState<Wallet | null>();
-  const { mnemonic } = props;
+  const { id, mnemonic } = props.storedWallet;
   const router = useRouter();
 
   useEffect(() => {
@@ -48,7 +53,7 @@ function WalletItem(props: WalletProps) {
     sparkWallet.initWalletFromMnemonic(mnemonic).then(() => {
       sparkWallet.getIdentityPublicKey().then((pubkey) => {
         sparkWallet.getBalance().then((balance) => {
-          setWallet({ sparkWallet, balance: balance as bigint, pubkey });
+          setWallet({ sparkWallet, balance: balance as bigint, id, pubkey });
         });
       });
     });
@@ -66,7 +71,7 @@ function WalletItem(props: WalletProps) {
   return (
     <Box
       onClick={() => {
-        router.push(`/wallets/${wallet.pubkey}`);
+        router.push(`/wallets/${wallet.id}`);
       }}
     >
       <div className="flex flex-col">
@@ -81,16 +86,16 @@ function WalletItem(props: WalletProps) {
 }
 
 export default function Wallets() {
-  const [mnemonics, setMnemonics] = useState<Array<string>>([]);
+  const [wallets, setWallets] = useState<Array<StoredWallet>>([]);
 
   useEffect(() => {
-    setMnemonics(getMnemonics());
-  }, [setMnemonics]);
+    setWallets(getAllStoredWallets());
+  }, [setWallets]);
 
   return (
     <Page>
-      {mnemonics.map((mnemonic) => (
-        <WalletItem key={mnemonic} mnemonic={mnemonic} />
+      {wallets.map((wallet) => (
+        <WalletItem key={wallet.id} storedWallet={wallet} />
       ))}
       <ButtonsContainer>
         <Button kind="primary" href="/wallets/new">
@@ -102,7 +107,7 @@ export default function Wallets() {
         <Button
           kind="secondary"
           onClick={() => {
-            clearMnemonics();
+            clearStoredWallets();
             location.reload();
           }}
         >

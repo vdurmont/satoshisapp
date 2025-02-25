@@ -1,18 +1,33 @@
 "use client";
 
+import { v4 as uuidv4 } from "uuid";
+
 const STORAGE_KEY = "SATOSHIS_APP_MNEMONICS";
 
-export function addMnemonic(mnemonic: string) {
-  const oldMnemonics = getMnemonics();
-  const newMnemonics = oldMnemonics.concat([mnemonic]);
-  localStorage.setItem(STORAGE_KEY, JSON.stringify(newMnemonics));
+export type StoredWallet = {
+  id: string;
+  mnemonic: string;
+};
+
+export function addStoredWallet(mnemonic: string): StoredWallet {
+  const oldWallets = getAllStoredWallets();
+  const wallet = { id: uuidv4(), mnemonic };
+  const newWallets = oldWallets.concat([wallet]);
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(newWallets));
+  return wallet;
 }
 
-export function getMnemonics(): Array<string> {
-  const mnemonics = localStorage.getItem(STORAGE_KEY);
-  return mnemonics ? JSON.parse(mnemonics) : [];
+export function getAllStoredWallets(): Array<StoredWallet> {
+  const wallets = localStorage.getItem(STORAGE_KEY);
+  return wallets ? JSON.parse(wallets) : [];
 }
 
-export function clearMnemonics() {
+export function getStoredWallet(id: string): StoredWallet {
+  const rawWallets = localStorage.getItem(STORAGE_KEY);
+  const wallets = rawWallets ? JSON.parse(rawWallets) : [];
+  return wallets.find((w: StoredWallet) => w.id === id);
+}
+
+export function clearStoredWallets() {
   localStorage.removeItem(STORAGE_KEY);
 }
