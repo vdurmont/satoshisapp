@@ -16,10 +16,12 @@ type Wallet = {
 
 export default function Wallets() {
   const [wallets, setWallets] = useState<Array<Wallet>>([]);
+  const [walletsCount, setWalletsCount] = useState(0);
   const router = useRouter();
 
   useEffect(() => {
     const mnemonics = getMnemonics();
+    setWalletsCount(mnemonics.length);
     for (const mnemonic of mnemonics) {
       const sparkWallet = new SparkWallet(Network.REGTEST);
       sparkWallet.initWalletFromMnemonic(mnemonic).then(() => {
@@ -64,6 +66,12 @@ export default function Wallets() {
             </div>
           </div>
         ))}
+        {walletsCount - wallets.length > 0 ? (
+          <p>
+            Loading {walletsCount - wallets.length} wallet
+            {walletsCount - wallets.length > 1 ? "s" : ""}...
+          </p>
+        ) : null}
         <Button kind="primary" href="/wallets/new">
           Create a wallet
         </Button>
