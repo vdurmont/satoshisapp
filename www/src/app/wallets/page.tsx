@@ -3,10 +3,11 @@
 import { SparkWallet } from "@buildonspark/spark-sdk";
 import { Network } from "@buildonspark/spark-sdk/utils";
 import { useEffect, useState } from "react";
-import { FaArrowRight } from "react-icons/fa";
+import { FaArrowRight, FaSync } from "react-icons/fa";
 import { useRouter } from "next/navigation";
 import { clearMnemonics, getMnemonics } from "@/app/storage";
 import Button from "@/app/components/button";
+import ButtonsContainer from "@/app/components/buttonsContainer";
 import Page from "@/app/components/page";
 
 type Wallet = {
@@ -15,75 +16,99 @@ type Wallet = {
   pubkey: string;
 };
 
-export default function Wallets() {
-  const [wallets, setWallets] = useState<Array<Wallet>>([]);
-  const [walletsCount, setWalletsCount] = useState(0);
+type BoxProps = {
+  children: React.ReactNode;
+  onClick?: () => void;
+};
+
+function Box(props: BoxProps) {
+  return (
+    <div className="flex flex-row w-full items-center justify-center">
+      <div
+        onClick={props.onClick}
+        className="flex flex-row flex-wrap gap-2 cursor-pointer border border-solid border-foreground rounded-lg p-4 h-[80px] content-center justify-center w-[350px]"
+      >
+        {props.children}
+      </div>
+    </div>
+  );
+}
+
+type WalletProps = {
+  mnemonic: string;
+};
+
+function WalletItem(props: WalletProps) {
+  const [wallet, setWallet] = useState<Wallet | null>();
+  const { mnemonic } = props;
   const router = useRouter();
 
   useEffect(() => {
-    const mnemonics = getMnemonics();
-    setWalletsCount(mnemonics.length);
-    for (const mnemonic of mnemonics) {
-      const sparkWallet = new SparkWallet(Network.REGTEST);
-      sparkWallet.initWalletFromMnemonic(mnemonic).then(() => {
-        sparkWallet.getIdentityPublicKey().then((pubkey) => {
-          sparkWallet.getBalance().then((balance) => {
-            setWallets((w) =>
-              w
-                .concat([{ sparkWallet, balance: balance as bigint, pubkey }])
-                .reduce((acc, cur) => {
-                  if (!acc.find((w) => w.pubkey === cur.pubkey)) {
-                    acc.push(cur);
-                  }
-                  return acc;
-                }, [] as Wallet[])
-            );
-          });
+    const sparkWallet = new SparkWallet(Network.REGTEST);
+    sparkWallet.initWalletFromMnemonic(mnemonic).then(() => {
+      sparkWallet.getIdentityPublicKey().then((pubkey) => {
+        sparkWallet.getBalance().then((balance) => {
+          setWallet({ sparkWallet, balance: balance as bigint, pubkey });
         });
       });
-    }
-  }, [setWallets]);
+    });
+  }, [mnemonic, setWallet]);
+
+  if (!wallet) {
+    return (
+      <Box>
+        <FaSync className="animate-spin" />
+        Loading...
+      </Box>
+    );
+  }
+
+  return (
+    <Box
+      onClick={() => {
+        router.push(`/wallets/${wallet.pubkey}`);
+      }}
+    >
+      <div className="flex flex-col">
+        <p>{wallet.pubkey.substring(0, 20)}...</p>
+        <p>Balance: {String(wallet.balance)} sats</p>
+      </div>
+      <div className="flex flex-col items-center justify-center ml-4">
+        <FaArrowRight />
+      </div>
+    </Box>
+  );
+}
+
+export default function Wallets() {
+  const [mnemonics, setMnemonics] = useState<Array<string>>([]);
+
+  useEffect(() => {
+    setMnemonics(getMnemonics());
+  }, [setMnemonics]);
 
   return (
     <Page>
-      {wallets.map((wallet, index) => (
-        <div
-          key={index}
-          className="flex flex-row gap-2 cursor-pointer"
+      {mnemonics.map((mnemonic) => (
+        <WalletItem key={mnemonic} mnemonic={mnemonic} />
+      ))}
+      <ButtonsContainer>
+        <Button kind="primary" href="/wallets/new">
+          Create a wallet
+        </Button>
+        <Button kind="primary" href="/wallets/recover">
+          Recover a wallet
+        </Button>
+        <Button
+          kind="secondary"
           onClick={() => {
-            router.push(`/wallets/${wallet.pubkey}`);
+            clearMnemonics();
+            location.reload();
           }}
         >
-          <div className="flex flex-col">
-            <p>{wallet.pubkey.substring(0, 20)}...</p>
-            <p>Balance: {String(wallet.balance)} sats</p>
-          </div>
-          <div className="flex flex-col items-center justify-center ml-4">
-            <FaArrowRight />
-          </div>
-        </div>
-      ))}
-      {walletsCount - wallets.length > 0 ? (
-        <p>
-          Loading {walletsCount - wallets.length} wallet
-          {walletsCount - wallets.length > 1 ? "s" : ""}...
-        </p>
-      ) : null}
-      <Button kind="primary" href="/wallets/new">
-        Create a wallet
-      </Button>
-      <Button kind="primary" href="/wallets/recover">
-        Recover a wallet
-      </Button>
-      <Button
-        kind="secondary"
-        onClick={() => {
-          clearMnemonics();
-          location.reload();
-        }}
-      >
-        Clear wallets
-      </Button>
+          Clear wallets
+        </Button>
+      </ButtonsContainer>
     </Page>
   );
 }
