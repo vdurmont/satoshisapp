@@ -5,6 +5,7 @@ import { Network } from "@buildonspark/spark-sdk/utils";
 import { useState } from "react";
 import { useParams } from "next/navigation";
 import Button from "@/app/components/button";
+import Page from "@/app/components/page";
 
 export default function WalletSendLn() {
   const [amount, setAmount] = useState("0");
@@ -13,12 +14,9 @@ export default function WalletSendLn() {
   const pubkey = params.pubkey as string;
 
   return (
-    <div className="flex flex-col items-center justify-start min-h-screen p-8 sm:p-20 font-[family-name:var(--font-geist-sans)]">
-      <h1 className="text-4xl sm:text-6xl font-bold text-center mb-2 max-w-xs sm:max-w-md">
-        Satoshis App
-      </h1>
+    <Page>
       {invoice ? null : (
-        <div className="flex flex-col gap-4 mt-10">
+        <>
           <p>
             Use this form to pay a Lightning Network invoice from your wallet.
           </p>
@@ -41,7 +39,7 @@ export default function WalletSendLn() {
               onChange={(e) => setInvoice(e.target.value)}
             />
           </label>
-        </div>
+        </>
       )}
       <Button
         kind="primary"
@@ -64,6 +62,6 @@ export default function WalletSendLn() {
       <Button kind="secondary" href={`/wallets/${pubkey}`}>
         Go back
       </Button>
-    </div>
+    </Page>
   );
 }

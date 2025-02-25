@@ -5,6 +5,7 @@ import { Network } from "@buildonspark/spark-sdk/utils";
 import { useEffect, useState } from "react";
 import { useParams } from "next/navigation";
 import Button from "@/app/components/button";
+import Page from "@/app/components/page";
 
 export default function WalletDepositBtc() {
   // @ts-expect-error will fix later maybe
@@ -33,23 +34,18 @@ export default function WalletDepositBtc() {
   }
 
   return (
-    <div className="flex flex-col items-center justify-start min-h-screen p-8 sm:p-20 font-[family-name:var(--font-geist-sans)]">
-      <h1 className="text-4xl sm:text-6xl font-bold text-center mb-2 max-w-xs sm:max-w-md">
-        Satoshis App
-      </h1>
-      <div className="flex flex-col gap-4 mt-10">
-        <p>
-          You can use this address to safely deposit BTC into your wallet. Your
-          balance will increase when the deposit is confirmed!
-        </p>
-        <p className="break-words max-w-[250px]">
-          <b>Address:</b> {address.address}
-        </p>
-        <p className="break-words max-w-[250px]">
-          <b>Verifying Key:</b>{" "}
-          {Buffer.from(address.verifyingKey).toString("hex")}
-        </p>
-      </div>
+    <Page>
+      <p>
+        You can use this address to safely deposit BTC into your wallet. Your
+        balance will increase when the deposit is confirmed!
+      </p>
+      <p className="break-words max-w-[250px]">
+        <b>Address:</b> {address.address}
+      </p>
+      <p className="break-words max-w-[250px]">
+        <b>Verifying Key:</b>{" "}
+        {Buffer.from(address.verifyingKey).toString("hex")}
+      </p>
       <Button
         kind="secondary"
         onClick={() => {
@@ -66,6 +62,6 @@ export default function WalletDepositBtc() {
       <Button kind="primary" href={`/wallets/${pubkey}`}>
         Go back
       </Button>
-    </div>
+    </Page>
   );
 }

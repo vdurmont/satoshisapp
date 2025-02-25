@@ -5,6 +5,7 @@ import { Network } from "@buildonspark/spark-sdk/utils";
 import { useState } from "react";
 import { useParams } from "next/navigation";
 import Button from "@/app/components/button";
+import Page from "@/app/components/page";
 
 export default function WalletReceiveLn() {
   const [invoice, setInvoice] = useState<string | null>(null);
@@ -15,12 +16,9 @@ export default function WalletReceiveLn() {
   const pubkey = params.pubkey as string;
 
   return (
-    <div className="flex flex-col items-center justify-start min-h-screen p-8 sm:p-20 font-[family-name:var(--font-geist-sans)]">
-      <h1 className="text-4xl sm:text-6xl font-bold text-center mb-2 max-w-xs sm:max-w-md">
-        Satoshis App
-      </h1>
+    <Page>
       {invoice ? null : (
-        <div className="flex flex-col gap-4 mt-10">
+        <>
           <p>
             Use this form to generate a Lightning Network invoice for receiving
             funds in your wallet.
@@ -44,7 +42,7 @@ export default function WalletReceiveLn() {
               onChange={(e) => setMemo(e.target.value)}
             />
           </label>
-        </div>
+        </>
       )}
       {invoice ? null : (
         <Button
@@ -68,10 +66,10 @@ export default function WalletReceiveLn() {
         </Button>
       )}
       {invoice ? (
-        <div className="flex flex-col gap-4 mt-10">
+        <>
           <p>Share this Lightning Network invoice with the sender!</p>
           <p className="break-words max-w-[250px]">{invoice}</p>
-        </div>
+        </>
       ) : null}
       {invoice ? (
         <Button
@@ -91,6 +89,6 @@ export default function WalletReceiveLn() {
       <Button kind="primary" href={`/wallets/${pubkey}`}>
         Go back
       </Button>
-    </div>
+    </Page>
   );
 }

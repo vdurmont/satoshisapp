@@ -6,6 +6,7 @@ import { useEffect, useState } from "react";
 import { useParams } from "next/navigation";
 import { FaArrowDown, FaArrowUp } from "react-icons/fa";
 import Button from "@/app/components/button";
+import Page from "@/app/components/page";
 
 type Wallet = {
   sparkWallet: SparkWallet;
@@ -35,18 +36,13 @@ export default function Wallet() {
   }
 
   return (
-    <div className="flex flex-col items-center justify-start min-h-screen p-8 sm:p-20 font-[family-name:var(--font-geist-sans)]">
-      <h1 className="text-4xl sm:text-6xl font-bold text-center mb-2 max-w-xs sm:max-w-md">
-        Satoshis App
-      </h1>
-      <div className="flex flex-col gap-4 mt-10">
-        <p className="break-words max-w-[250px]">
-          <b>Pubkey:</b> {wallet.pubkey}
-        </p>
-        <p>
-          <b>Balance:</b> {String(wallet.balance)} sats
-        </p>
-      </div>
+    <Page>
+      <p className="break-words max-w-[250px]">
+        <b>Pubkey:</b> {wallet.pubkey}
+      </p>
+      <p>
+        <b>Balance:</b> {String(wallet.balance)} sats
+      </p>
       <Button kind="primary" href={`/wallets/${pubkey}/send`}>
         <FaArrowUp />
         Send
@@ -58,6 +54,6 @@ export default function Wallet() {
       <Button kind="secondary" href="/wallets">
         Go back to wallets
       </Button>
-    </div>
+    </Page>
   );
 }

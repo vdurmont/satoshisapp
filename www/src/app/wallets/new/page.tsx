@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { generateMnemonic } from "bip39";
 import { useRouter } from "next/navigation";
 import Button from "@/app/components/button";
+import Page from "@/app/components/page";
 import { addMnemonic } from "@/app/storage";
 
 function getRandomInt(min: number, max: number) {
@@ -46,12 +47,9 @@ export default function NewWallet() {
   }, [setMnemonic, setIndex1, setIndex2]);
 
   return (
-    <div className="flex flex-col items-center justify-start min-h-screen p-8 sm:p-20 font-[family-name:var(--font-geist-sans)]">
-      <h1 className="text-4xl sm:text-6xl font-bold text-center mb-2 max-w-xs sm:max-w-md">
-        Satoshis App
-      </h1>
+    <Page>
       {step === -1 ? (
-        <div className="flex flex-col gap-4 mt-10">
+        <>
           <p>
             Uh oh... You entered the wrong word. We are going to start over and
             generate a new mnemonic phrase for you.
@@ -64,9 +62,9 @@ export default function NewWallet() {
           >
             Start over
           </Button>
-        </div>
+        </>
       ) : step === 0 ? (
-        <div className="flex flex-col gap-4 mt-10">
+        <>
           <p>
             We generated a random mnemonic phrase for you. It is very important
             to write it down and keep it safe.
@@ -97,9 +95,9 @@ export default function NewWallet() {
           >
             Next
           </Button>
-        </div>
+        </>
       ) : step === 1 ? (
-        <div className="flex flex-col gap-4 mt-10">
+        <>
           <p>You will need your passphrase to recover your wallet.</p>
           <p>Enter the {prettyIndex(index1)} word here:</p>
           <input
@@ -120,9 +118,9 @@ export default function NewWallet() {
           >
             Next
           </Button>
-        </div>
+        </>
       ) : step === 2 ? (
-        <div className="flex flex-col gap-4 mt-10">
+        <>
           <p>Without it you will lose access to your funds.</p>
           <p>Enter the {prettyIndex(index2)} word here:</p>
           <input
@@ -144,8 +142,8 @@ export default function NewWallet() {
           >
             Next
           </Button>
-        </div>
+        </>
       ) : null}
-    </div>
+    </Page>
   );
 }

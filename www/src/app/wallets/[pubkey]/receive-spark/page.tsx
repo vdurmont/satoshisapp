@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { useParams } from "next/navigation";
 import Button from "@/app/components/button";
+import Page from "@/app/components/page";
 
 export default function WalletReceiveSpark() {
   const [copyText, setCopyText] = useState("Copy address to clipboard");
@@ -10,14 +11,9 @@ export default function WalletReceiveSpark() {
   const pubkey = params.pubkey as string;
 
   return (
-    <div className="flex flex-col items-center justify-start min-h-screen p-8 sm:p-20 font-[family-name:var(--font-geist-sans)]">
-      <h1 className="text-4xl sm:text-6xl font-bold text-center mb-2 max-w-xs sm:max-w-md">
-        Satoshis App
-      </h1>
-      <div className="flex flex-col gap-4 mt-10">
-        <p>Use this Spark address to receive funds in your wallet.</p>
-        <p className="break-words max-w-[250px]">{pubkey}</p>
-      </div>
+    <Page>
+      <p>Use this Spark address to receive funds in your wallet.</p>
+      <p className="break-words max-w-[250px]">{pubkey}</p>
       <Button
         kind="secondary"
         onClick={() => {
@@ -34,6 +30,6 @@ export default function WalletReceiveSpark() {
       <Button kind="primary" href={`/wallets/${pubkey}`}>
         Go back
       </Button>
-    </div>
+    </Page>
   );
 }
