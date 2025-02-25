@@ -30,7 +30,11 @@ export default function WalletDepositBtc() {
   }, [pubkey, setAddress]);
 
   if (!address) {
-    return <div>Loading...</div>;
+    return (
+      <Page>
+        <p>Loading...</p>
+      </Page>
+    );
   }
 
   return (

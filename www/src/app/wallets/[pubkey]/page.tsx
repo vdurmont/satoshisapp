@@ -32,7 +32,11 @@ export default function Wallet() {
   }, [pubkey, setWallet]);
 
   if (!wallet) {
-    return <div>Loading...</div>;
+    return (
+      <Page>
+        <p>Loading...</p>
+      </Page>
+    );
   }
 
   return (
