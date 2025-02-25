@@ -3,7 +3,7 @@
 import { SparkWallet } from "@buildonspark/spark-sdk";
 import { Network } from "@buildonspark/spark-sdk/utils";
 import { useEffect, useState } from "react";
-import { FaArrowRight, FaSync } from "react-icons/fa";
+import { FaArrowRight } from "react-icons/fa";
 import { useRouter } from "next/navigation";
 import {
   clearStoredWallets,
@@ -12,6 +12,7 @@ import {
 } from "@/app/storage";
 import Button from "@/app/components/button";
 import ButtonsContainer from "@/app/components/buttonsContainer";
+import Loader from "@/app/components/loader";
 import Page from "@/app/components/page";
 
 type Wallet = {
@@ -62,8 +63,7 @@ function WalletItem(props: WalletProps) {
   if (!wallet) {
     return (
       <Box>
-        <FaSync className="animate-spin" />
-        Loading...
+        <Loader />
       </Box>
     );
   }

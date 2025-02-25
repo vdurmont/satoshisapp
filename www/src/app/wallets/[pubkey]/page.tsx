@@ -6,6 +6,7 @@ import { useEffect, useState } from "react";
 import { useParams } from "next/navigation";
 import { FaArrowDown, FaArrowUp } from "react-icons/fa";
 import Button from "@/app/components/button";
+import Loader from "@/app/components/loader";
 import Page from "@/app/components/page";
 
 type Wallet = {
@@ -34,7 +35,7 @@ export default function Wallet() {
   if (!wallet) {
     return (
       <Page>
-        <p>Loading...</p>
+        <Loader />
       </Page>
     );
   }
