@@ -9,7 +9,7 @@
     "lint": "next lint"
   },
   "dependencies": {
-    "@buildonspark/spark-js-sdk": "file:spark-js-sdk-package.tgz",
+    "@buildonspark/spark-sdk": "git+https://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@github.com/buildonspark/spark-sdk.git#develop",
     "bip39": "^3.1.0",
     "classnames": "^2.5.1",
     "next": "15.1.7",

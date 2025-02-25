@@ -1,7 +1,7 @@
 "use client";
 
-import { SparkWallet } from "@buildonspark/spark-js-sdk";
-import { Network } from "@buildonspark/spark-js-sdk/utils";
+import { SparkWallet } from "@buildonspark/spark-sdk";
+import { Network } from "@buildonspark/spark-sdk/utils";
 import { useEffect, useState } from "react";
 import { useParams } from "next/navigation";
 import { FaArrowDown, FaArrowUp } from "react-icons/fa";
@@ -23,7 +23,7 @@ export default function Wallet() {
       return;
     }
     const sparkWallet = new SparkWallet(Network.REGTEST);
-    sparkWallet.createSparkWalletFromSeed(pubkey).then(() => {
+    sparkWallet.initWallet(pubkey).then(() => {
       sparkWallet.getBalance().then((balance) => {
         setWallet({ sparkWallet, balance: balance as bigint, pubkey });
       });

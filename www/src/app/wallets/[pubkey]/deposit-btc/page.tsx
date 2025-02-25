@@ -1,14 +1,13 @@
 "use client";
 
-import { SparkWallet } from "@buildonspark/spark-js-sdk";
-import { Network } from "@buildonspark/spark-js-sdk/utils";
-// @ts-expect-error will fix later maybe
-import { Address } from "@buildonspark/spark-js-sdk/proto/spark";
+import { SparkWallet } from "@buildonspark/spark-sdk";
+import { Network } from "@buildonspark/spark-sdk/utils";
 import { useEffect, useState } from "react";
 import { useParams } from "next/navigation";
 import Button from "@/app/components/button";
 
 export default function WalletDepositBtc() {
+  // @ts-expect-error will fix later maybe
   const [address, setAddress] = useState<Address | null>(null);
   const [copyText, setCopyText] = useState("Copy address to clipboard");
   const params = useParams();
@@ -19,9 +18,10 @@ export default function WalletDepositBtc() {
       return;
     }
     const sparkWallet = new SparkWallet(Network.REGTEST);
-    sparkWallet.createSparkWalletFromSeed(pubkey).then(() => {
-      sparkWallet.getMasterPubKey().then((masterPubKey) => {
-        sparkWallet.generateDepositAddress(masterPubKey).then((res) => {
+    sparkWallet.initWallet(pubkey).then(() => {
+      sparkWallet.getIdentityPublicKey().then((idPubkey) => {
+        const address = Uint8Array.from(Buffer.from(idPubkey, "hex"));
+        sparkWallet.generateDepositAddress(address).then((res) => {
           setAddress(res.depositAddress);
         });
       });

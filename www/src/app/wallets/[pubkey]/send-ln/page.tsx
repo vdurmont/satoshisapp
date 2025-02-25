@@ -1,7 +1,7 @@
 "use client";
 
-import { SparkWallet } from "@buildonspark/spark-js-sdk";
-import { Network } from "@buildonspark/spark-js-sdk/utils";
+import { SparkWallet } from "@buildonspark/spark-sdk";
+import { Network } from "@buildonspark/spark-sdk/utils";
 import { useState } from "react";
 import { useParams } from "next/navigation";
 import Button from "@/app/components/button";
@@ -47,7 +47,7 @@ export default function WalletSendLn() {
         kind="primary"
         onClick={() => {
           const sparkWallet = new SparkWallet(Network.REGTEST);
-          sparkWallet.createSparkWalletFromSeed(pubkey).then(() => {
+          sparkWallet.initWallet(pubkey).then(() => {
             sparkWallet
               .payLightningInvoice({
                 amountSats: amount ? parseInt(amount) : undefined,

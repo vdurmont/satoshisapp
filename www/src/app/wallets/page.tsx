@@ -1,7 +1,7 @@
 "use client";
 
-import { SparkWallet } from "@buildonspark/spark-js-sdk";
-import { Network } from "@buildonspark/spark-js-sdk/utils";
+import { SparkWallet } from "@buildonspark/spark-sdk";
+import { Network } from "@buildonspark/spark-sdk/utils";
 import { useEffect, useState } from "react";
 import { FaArrowRight } from "react-icons/fa";
 import { useRouter } from "next/navigation";
@@ -22,18 +22,20 @@ export default function Wallets() {
     const mnemonics = getMnemonics();
     for (const mnemonic of mnemonics) {
       const sparkWallet = new SparkWallet(Network.REGTEST);
-      sparkWallet.createSparkWallet(mnemonic).then((pubkey) => {
-        sparkWallet.getBalance().then((balance) => {
-          setWallets((w) =>
-            w
-              .concat([{ sparkWallet, balance: balance as bigint, pubkey }])
-              .reduce((acc, cur) => {
-                if (!acc.find((w) => w.pubkey === cur.pubkey)) {
-                  acc.push(cur);
-                }
-                return acc;
-              }, [] as Wallet[])
-          );
+      sparkWallet.initWalletFromMnemonic(mnemonic).then(() => {
+        sparkWallet.getIdentityPublicKey().then((pubkey) => {
+          sparkWallet.getBalance().then((balance) => {
+            setWallets((w) =>
+              w
+                .concat([{ sparkWallet, balance: balance as bigint, pubkey }])
+                .reduce((acc, cur) => {
+                  if (!acc.find((w) => w.pubkey === cur.pubkey)) {
+                    acc.push(cur);
+                  }
+                  return acc;
+                }, [] as Wallet[])
+            );
+          });
         });
       });
     }
