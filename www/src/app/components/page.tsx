@@ -10,7 +10,7 @@ export default function Page(props: Props) {
       <h1 className="text-4xl sm:text-6xl font-bold text-center mb-2 max-w-xs sm:max-w-md">
         Satoshis App
       </h1>
-      <div className="flex flex-col gap-4 mt-10 w-full max-w-[600px]">
+      <div className="flex flex-col gap-4 mt-10 w-full max-w-[400px]">
         {props.children}
       </div>
     </div>
