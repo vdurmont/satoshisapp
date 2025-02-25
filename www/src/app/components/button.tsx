@@ -5,6 +5,7 @@ import cx from "classnames";
 
 type Props = {
   children: React.ReactNode;
+  disabled?: boolean;
   href?: string;
   onClick?: () => void;
   kind: "primary" | "secondary";
@@ -22,6 +23,10 @@ export default function Button(props: Props) {
       )}
       href={props.href || "#"}
       onClick={(e) => {
+        if (props.disabled) {
+          e.preventDefault();
+          return;
+        }
         if (props.onClick) {
           e.preventDefault();
           props.onClick();
