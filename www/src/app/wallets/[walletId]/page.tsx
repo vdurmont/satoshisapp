@@ -1,6 +1,5 @@
 "use client";
 
-import { SparkWallet } from "@buildonspark/spark-sdk";
 import { useEffect, useState } from "react";
 import { useParams } from "next/navigation";
 import {
