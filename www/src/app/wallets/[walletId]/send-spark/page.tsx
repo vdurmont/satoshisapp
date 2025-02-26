@@ -7,13 +7,14 @@ import { useParams, useRouter } from "next/navigation";
 import Button from "@/app/components/button";
 import Page from "@/app/components/page";
 import { FaSync } from "react-icons/fa";
+import { getStoredWallet } from "@/app/storage";
 
 export default function WalletSendSpark() {
   const [loading, setLoading] = useState(false);
   const [amount, setAmount] = useState("0");
   const [idKey, setIdKey] = useState("");
   const params = useParams();
-  const pubkey = params.pubkey as string;
+  const walletId = params.walletId as string;
   const router = useRouter();
 
   return (
@@ -44,7 +45,8 @@ export default function WalletSendSpark() {
         onClick={() => {
           setLoading(true);
           const sparkWallet = new SparkWallet(Network.REGTEST);
-          sparkWallet.initWallet(pubkey).then(() => {
+          const storedWallet = getStoredWallet(walletId);
+          sparkWallet.initWalletFromMnemonic(storedWallet.mnemonic).then(() => {
             const receiverPubKey = Uint8Array.from(Buffer.from(idKey, "hex"));
             sparkWallet
               .sendTransfer({
@@ -52,7 +54,7 @@ export default function WalletSendSpark() {
                 receiverPubKey,
               })
               .then(() => {
-                router.push(`/wallets/${pubkey}`);
+                router.push(`/wallets/${walletId}`);
               });
           });
         }}
@@ -60,7 +62,7 @@ export default function WalletSendSpark() {
         {loading ? <FaSync className="animate-spin" /> : null}
         Send transfer
       </Button>
-      <Button kind="secondary" href={`/wallets/${pubkey}`}>
+      <Button kind="secondary" href={`/wallets/${walletId}`}>
         Go back
       </Button>
     </Page>

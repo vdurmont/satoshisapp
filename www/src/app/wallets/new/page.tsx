@@ -5,7 +5,7 @@ import { generateMnemonic } from "bip39";
 import { useRouter } from "next/navigation";
 import Button from "@/app/components/button";
 import Page from "@/app/components/page";
-import { addMnemonic } from "@/app/storage";
+import { addStoredWallet } from "@/app/storage";
 
 function getRandomInt(min: number, max: number) {
   return Math.floor(Math.random() * (max - min + 1)) + min;
@@ -133,7 +133,7 @@ export default function NewWallet() {
             kind="primary"
             onClick={() => {
               if (mnemonic.split(" ")[index2 - 1] === word2) {
-                addMnemonic(mnemonic);
+                addStoredWallet(mnemonic);
                 router.push("/wallets");
               } else {
                 setStep(-1);

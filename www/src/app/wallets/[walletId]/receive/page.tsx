@@ -7,23 +7,23 @@ import Page from "@/app/components/page";
 
 export default function WalletReceive() {
   const params = useParams();
-  const pubkey = params.pubkey as string;
+  const walletId = params.walletId as string;
 
   return (
     <Page>
-      <Button kind="primary" href={`/wallets/${pubkey}/deposit-btc`}>
+      <Button kind="primary" href={`/wallets/${walletId}/deposit-btc`}>
         <FaBitcoin />
         Deposit from Bitcoin
       </Button>
-      <Button kind="primary" href={`/wallets/${pubkey}/receive-ln`}>
+      <Button kind="primary" href={`/wallets/${walletId}/receive-ln`}>
         <FaBolt />
         Receive on Lightning
       </Button>
-      <Button kind="primary" href={`/wallets/${pubkey}/receive-spark`}>
+      <Button kind="primary" href={`/wallets/${walletId}/receive-spark`}>
         <FaStar />
         Receive on Spark
       </Button>
-      <Button kind="secondary" href={`/wallets/${pubkey}`}>
+      <Button kind="secondary" href={`/wallets/${walletId}`}>
         Go back
       </Button>
     </Page>

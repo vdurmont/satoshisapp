@@ -6,20 +6,26 @@ import { useEffect, useState } from "react";
 import { useParams } from "next/navigation";
 import Button from "@/app/components/button";
 import Page from "@/app/components/page";
+import Loader from "@/app/components/loader";
+import { getStoredWallet } from "@/app/storage";
 
 export default function WalletDepositBtc() {
   // @ts-expect-error will fix later maybe
   const [address, setAddress] = useState<Address | null>(null);
-  const [copyText, setCopyText] = useState("Copy address to clipboard");
+  const [copyAddressText, setCopyAddressText] = useState(
+    "Copy address to clipboard"
+  );
+  const [copyVerifText, setCopyVerifText] = useState("Copy key to clipboard");
   const params = useParams();
-  const pubkey = params.pubkey as string;
+  const walletId = params.walletId as string;
 
   useEffect(() => {
-    if (!pubkey) {
+    if (!walletId) {
       return;
     }
     const sparkWallet = new SparkWallet(Network.REGTEST);
-    sparkWallet.initWallet(pubkey).then(() => {
+    const storedWallet = getStoredWallet(walletId);
+    sparkWallet.initWalletFromMnemonic(storedWallet.mnemonic).then(() => {
       sparkWallet.getIdentityPublicKey().then((idPubkey) => {
         const address = Uint8Array.from(Buffer.from(idPubkey, "hex"));
         sparkWallet.generateDepositAddress(address).then((res) => {
@@ -27,16 +33,17 @@ export default function WalletDepositBtc() {
         });
       });
     });
-  }, [pubkey, setAddress]);
+  }, [walletId, setAddress]);
 
   if (!address) {
     return (
       <Page>
-        <p>Loading...</p>
+        <Loader />
       </Page>
     );
   }
 
+  const verifKey = Buffer.from(address.verifyingKey).toString("hex");
   return (
     <Page>
       <p>
@@ -46,24 +53,36 @@ export default function WalletDepositBtc() {
       <p className="break-words max-w-[250px]">
         <b>Address:</b> {address.address}
       </p>
-      <p className="break-words max-w-[250px]">
-        <b>Verifying Key:</b>{" "}
-        {Buffer.from(address.verifyingKey).toString("hex")}
-      </p>
       <Button
         kind="secondary"
         onClick={() => {
           navigator.clipboard.writeText(address.address).then(() => {
-            setCopyText("Copied!");
+            setCopyAddressText("Copied!");
             setTimeout(() => {
-              setCopyText("Copy address to clipboard");
+              setCopyAddressText("Copy address to clipboard");
             }, 2000);
           });
         }}
       >
-        {copyText}
+        {copyAddressText}
       </Button>
-      <Button kind="primary" href={`/wallets/${pubkey}`}>
+      <p className="break-words max-w-[250px]">
+        <b>Verifying Key:</b> {verifKey}
+      </p>
+      <Button
+        kind="secondary"
+        onClick={() => {
+          navigator.clipboard.writeText(verifKey).then(() => {
+            setCopyVerifText("Copied!");
+            setTimeout(() => {
+              setCopyVerifText("Copy key to clipboard");
+            }, 2000);
+          });
+        }}
+      >
+        {copyVerifText}
+      </Button>
+      <Button kind="primary" href={`/wallets/${walletId}`}>
         Go back
       </Button>
     </Page>

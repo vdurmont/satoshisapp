@@ -2,10 +2,12 @@
 
 import Link from "next/link";
 import cx from "classnames";
+import { FaSync } from "react-icons/fa";
 
 type Props = {
   children: React.ReactNode;
   disabled?: boolean;
+  loading?: boolean;
   href?: string;
   onClick?: () => void;
   kind: "primary" | "secondary";
@@ -33,6 +35,7 @@ export default function Button(props: Props) {
         }
       }}
     >
+      {props.loading ? <FaSync className="animate-spin" /> : null}
       {props.children}
     </Link>
   );

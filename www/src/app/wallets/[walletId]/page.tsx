@@ -30,8 +30,8 @@ export default function Wallet() {
     const sparkWallet = new SparkWallet(Network.REGTEST);
     const storedWallet = getStoredWallet(walletId);
     sparkWallet.initWalletFromMnemonic(storedWallet.mnemonic).then(() => {
-      sparkWallet.getBalance().then((balance) => {
-        sparkWallet.getIdentityPublicKey().then((pubkey) => {
+      sparkWallet.getIdentityPublicKey().then((pubkey) => {
+        sparkWallet.getBalance().then((balance) => {
           setWallet({ sparkWallet, balance: balance as bigint, pubkey });
         });
       });
