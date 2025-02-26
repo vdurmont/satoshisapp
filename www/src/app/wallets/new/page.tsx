@@ -98,7 +98,7 @@ export default function NewWallet() {
         </>
       ) : step === 1 ? (
         <>
-          <p>You will need your passphrase to recover your wallet.</p>
+          <p>You will need your mnemonic passphrase to recover your wallet.</p>
           <p>Enter the {prettyIndex(index1)} word here:</p>
           <input
             type="text"
@@ -121,7 +121,9 @@ export default function NewWallet() {
         </>
       ) : step === 2 ? (
         <>
-          <p>Without it you will lose access to your funds.</p>
+          <p>
+            Without your mnemonic passphrase you will lose access to your funds.
+          </p>
           <p>Enter the {prettyIndex(index2)} word here:</p>
           <input
             type="text"
@@ -140,7 +142,7 @@ export default function NewWallet() {
               }
             }}
           >
-            Next
+            Create
           </Button>
         </>
       ) : null}
