@@ -56,7 +56,7 @@ function WalletItem(props: WalletProps) {
         setWallet({ sparkWallet, balance: res.balance as bigint, id, pubkey });
       });
     });
-  }, []);
+  });
 
   if (!wallet) {
     return (

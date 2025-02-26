@@ -25,12 +25,9 @@ export default function WalletDepositBtc() {
     }
     const sparkWallet = new SparkWallet(Network.REGTEST);
     const storedWallet = getStoredWallet(walletId);
-    sparkWallet.initWalletFromMnemonic(storedWallet.mnemonic).then(() => {
-      sparkWallet.getIdentityPublicKey().then((idPubkey) => {
-        const address = Uint8Array.from(Buffer.from(idPubkey, "hex"));
-        sparkWallet.generateDepositAddress(address).then((res) => {
-          setAddress(res.depositAddress);
-        });
+    sparkWallet.initWallet(storedWallet.mnemonic).then(() => {
+      sparkWallet.getDepositAddress().then((address) => {
+        setAddress(address);
       });
     });
   }, [walletId, setAddress]);

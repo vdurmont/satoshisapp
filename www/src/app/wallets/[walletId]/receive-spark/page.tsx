@@ -21,12 +21,12 @@ export default function WalletReceiveSpark() {
     }
     const sparkWallet = new SparkWallet(Network.REGTEST);
     const storedWallet = getStoredWallet(walletId);
-    sparkWallet.initWalletFromMnemonic(storedWallet.mnemonic).then(() => {
-      sparkWallet.getIdentityPublicKey().then((pubkey) => {
+    sparkWallet.initWallet(storedWallet.mnemonic).then(() => {
+      sparkWallet.getSparkAddress().then((pubkey) => {
         setPubkey(pubkey);
       });
     });
-  }, []);
+  });
 
   if (!pubkey) {
     return (

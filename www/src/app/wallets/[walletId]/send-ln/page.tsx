@@ -10,7 +10,6 @@ import { getStoredWallet } from "@/app/storage";
 import ButtonsContainer from "@/app/components/buttonsContainer";
 
 export default function WalletSendLn() {
-  const [amount, setAmount] = useState("0");
   const [invoice, setInvoice] = useState("");
   const [step, setStep] = useState(0);
   const params = useParams();
@@ -22,16 +21,6 @@ export default function WalletSendLn() {
         <p>
           Use this form to pay a Lightning Network invoice from your wallet.
         </p>
-        <label className="block">
-          Amount (sats, optional)
-          <input
-            type="number"
-            placeholder="Amount (sats)"
-            className="border border-gray-300 rounded p-2 w-full text-black"
-            value={amount || ""}
-            onChange={(e) => setAmount(e.target.value)}
-          />
-        </label>
         <label className="block">
           Lightning Invoice
           <textarea
@@ -68,23 +57,17 @@ export default function WalletSendLn() {
             onClick={() => {
               const sparkWallet = new SparkWallet(Network.REGTEST);
               const storedWallet = getStoredWallet(walletId);
-              sparkWallet
-                .initWalletFromMnemonic(storedWallet.mnemonic)
-                .then(() => {
-                  sparkWallet
-                    .payLightningInvoice({
-                      amountSats: amount ? parseInt(amount) : undefined,
-                      invoice,
-                    })
-                    .then(() => {
-                      setStep(2);
-                    });
+              sparkWallet.initWallet(storedWallet.mnemonic).then(() => {
+                sparkWallet.payLightningInvoice({ invoice }).then(() => {
+                  setStep(2);
                 });
+              });
             }}
           >
             Pay Invoice
           </Button>
           <Button
+            disabled={!invoice}
             kind="secondary"
             onClick={() => {
               setStep(0);

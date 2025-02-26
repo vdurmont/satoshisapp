@@ -6,7 +6,6 @@ import { useState } from "react";
 import { useParams, useRouter } from "next/navigation";
 import Button from "@/app/components/button";
 import PageContainer from "@/app/components/pageContainer";
-import { FaSync } from "react-icons/fa";
 import { getStoredWallet } from "@/app/storage";
 
 export default function WalletSendSpark() {
@@ -47,12 +46,11 @@ export default function WalletSendSpark() {
           setLoading(true);
           const sparkWallet = new SparkWallet(Network.REGTEST);
           const storedWallet = getStoredWallet(walletId);
-          sparkWallet.initWalletFromMnemonic(storedWallet.mnemonic).then(() => {
-            const receiverPubKey = Uint8Array.from(Buffer.from(idKey, "hex"));
+          sparkWallet.initWallet(storedWallet.mnemonic).then(() => {
             sparkWallet
-              .sendTransfer({
-                amount: amount ? parseInt(amount) : undefined,
-                receiverPubKey,
+              .sendSparkTransfer({
+                amount: parseInt(amount),
+                receiverSparkAddress: idKey,
               })
               .then(() => {
                 router.push(`/wallets/${walletId}`);

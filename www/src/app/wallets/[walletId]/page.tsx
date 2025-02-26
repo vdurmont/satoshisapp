@@ -48,7 +48,7 @@ export default function Wallet() {
         });
       });
     });
-  }, []);
+  });
 
   if (!wallet) {
     return (
