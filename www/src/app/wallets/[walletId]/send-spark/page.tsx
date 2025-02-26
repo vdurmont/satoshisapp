@@ -4,10 +4,11 @@ import { useState } from "react";
 import { useParams, useRouter } from "next/navigation";
 import Button from "@/app/components/button";
 import PageContainer from "@/app/components/pageContainer";
-import { getOrInitCachedWallet } from "@/app/walletCache";
+import { getOrInitCachedWallet, refreshWallet } from "@/app/walletCache";
 
 export default function WalletSendSpark() {
   const [loading, setLoading] = useState(false);
+  const [syncing, setSyncing] = useState(false);
   const [amount, setAmount] = useState("0");
   const [idKey, setIdKey] = useState("");
   const params = useParams();
@@ -49,12 +50,19 @@ export default function WalletSendSpark() {
                 receiverSparkAddress: idKey,
               })
               .then(() => {
-                router.push(`/wallets/${walletId}`);
+                setSyncing(true);
+                refreshWallet(walletId).then(() => {
+                  router.push(`/wallets/${walletId}`);
+                });
               });
           });
         }}
       >
-        {loading ? "Sending..." : "Send transfer"}
+        {syncing
+          ? "Syncing wallet..."
+          : loading
+          ? "Sending..."
+          : "Send transfer"}
       </Button>
       <Button kind="secondary" href={`/wallets/${walletId}`}>
         Go back

@@ -14,7 +14,7 @@ import Button from "@/app/components/button";
 import Loader from "@/app/components/loader";
 import PageContainer from "@/app/components/pageContainer";
 import ButtonsContainer from "@/app/components/buttonsContainer";
-import { deleteWallet, getOrInitCachedWallet } from "@/app/walletCache";
+import { getOrInitCachedWallet, refreshWallet } from "@/app/walletCache";
 
 type Wallet = {
   balance: bigint;
@@ -147,8 +147,7 @@ export default function Wallet() {
           loading={syncing}
           onClick={() => {
             setSyncing(true);
-            deleteWallet(walletId);
-            getOrInitCachedWallet(walletId).then((cachedWallet) => {
+            refreshWallet(walletId).then((cachedWallet) => {
               cachedWallet.sparkWallet.getSparkAddress().then((pubkey) => {
                 setWallet({
                   balance: cachedWallet.balance,

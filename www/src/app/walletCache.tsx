@@ -30,3 +30,8 @@ export async function getOrInitCachedWallet(id: string) {
 export function deleteWallet(id: string) {
   delete WALLETS[id];
 }
+
+export async function refreshWallet(id: string) {
+  deleteWallet(id);
+  return await getOrInitCachedWallet(id);
+}
