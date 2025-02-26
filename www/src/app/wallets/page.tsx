@@ -88,7 +88,7 @@ export default function Wallets() {
 
   useEffect(() => {
     setWallets(getAllStoredWallets());
-  }, [setWallets]);
+  });
 
   return (
     <PageContainer>

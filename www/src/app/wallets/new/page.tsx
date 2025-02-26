@@ -44,7 +44,7 @@ export default function NewWallet() {
       index2Candidate = getRandomInt(1, 12);
     }
     setIndex2(index2Candidate);
-  }, [setMnemonic, setIndex1, setIndex2]);
+  });
 
   return (
     <PageContainer>

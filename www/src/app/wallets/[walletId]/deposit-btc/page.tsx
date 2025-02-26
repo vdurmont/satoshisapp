@@ -10,8 +10,7 @@ import Loader from "@/app/components/loader";
 import { getStoredWallet } from "@/app/storage";
 
 export default function WalletDepositBtc() {
-  // @ts-expect-error will fix later maybe
-  const [address, setAddress] = useState<Address | null>(null);
+  const [address, setAddress] = useState<string | null>(null);
   const [copyAddressText, setCopyAddressText] = useState(
     "Copy address to clipboard"
   );
@@ -29,7 +28,7 @@ export default function WalletDepositBtc() {
         setAddress(address);
       });
     });
-  }, [walletId, setAddress]);
+  });
 
   if (!address) {
     return (
