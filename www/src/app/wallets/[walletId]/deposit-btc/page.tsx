@@ -46,7 +46,7 @@ export default function WalletDepositBtc() {
       <Button
         kind="secondary"
         onClick={() => {
-          navigator.clipboard.writeText(address.address).then(() => {
+          navigator.clipboard.writeText(address).then(() => {
             setCopyAddressText("Copied!");
             setTimeout(() => {
               setCopyAddressText("Copy address to clipboard");
