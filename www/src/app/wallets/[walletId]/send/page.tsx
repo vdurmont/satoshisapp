@@ -3,7 +3,7 @@
 import { useParams } from "next/navigation";
 import { FaBitcoin, FaBolt, FaStar } from "react-icons/fa";
 import Button from "@/app/components/button";
-import Page from "@/app/components/page";
+import PageContainer from "@/app/components/pageContainer";
 import ButtonsContainer from "@/app/components/buttonsContainer";
 
 export default function WalletSend() {
@@ -11,7 +11,7 @@ export default function WalletSend() {
   const walletId = params.walletId as string;
 
   return (
-    <Page>
+    <PageContainer>
       <ButtonsContainer>
         <Button kind="primary" href={`/wallets/${walletId}/send-ln`}>
           <FaBolt />
@@ -29,6 +29,6 @@ export default function WalletSend() {
           Go back
         </Button>
       </ButtonsContainer>
-    </Page>
+    </PageContainer>
   );
 }

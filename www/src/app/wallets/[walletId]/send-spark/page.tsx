@@ -5,7 +5,7 @@ import { Network } from "@buildonspark/spark-sdk/utils";
 import { useState } from "react";
 import { useParams, useRouter } from "next/navigation";
 import Button from "@/app/components/button";
-import Page from "@/app/components/page";
+import PageContainer from "@/app/components/pageContainer";
 import { FaSync } from "react-icons/fa";
 import { getStoredWallet } from "@/app/storage";
 
@@ -18,7 +18,7 @@ export default function WalletSendSpark() {
   const router = useRouter();
 
   return (
-    <Page>
+    <PageContainer>
       <p>Use this form to send sats to a Spark wallet.</p>
       <label className="block">
         Amount (sats)
@@ -65,6 +65,6 @@ export default function WalletSendSpark() {
       <Button kind="secondary" href={`/wallets/${walletId}`}>
         Go back
       </Button>
-    </Page>
+    </PageContainer>
   );
 }

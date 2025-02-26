@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import { generateMnemonic } from "bip39";
 import { useRouter } from "next/navigation";
 import Button from "@/app/components/button";
-import Page from "@/app/components/page";
+import PageContainer from "@/app/components/pageContainer";
 import { addStoredWallet } from "@/app/storage";
 
 function getRandomInt(min: number, max: number) {
@@ -47,7 +47,7 @@ export default function NewWallet() {
   }, [setMnemonic, setIndex1, setIndex2]);
 
   return (
-    <Page>
+    <PageContainer>
       {step === -1 ? (
         <>
           <p>
@@ -144,6 +144,6 @@ export default function NewWallet() {
           </Button>
         </>
       ) : null}
-    </Page>
+    </PageContainer>
   );
 }

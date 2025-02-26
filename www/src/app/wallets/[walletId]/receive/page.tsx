@@ -3,14 +3,14 @@
 import { useParams } from "next/navigation";
 import { FaBitcoin, FaBolt, FaStar } from "react-icons/fa";
 import Button from "@/app/components/button";
-import Page from "@/app/components/page";
+import PageContainer from "@/app/components/pageContainer";
 
 export default function WalletReceive() {
   const params = useParams();
   const walletId = params.walletId as string;
 
   return (
-    <Page>
+    <PageContainer>
       <Button kind="primary" href={`/wallets/${walletId}/deposit-btc`}>
         <FaBitcoin />
         Deposit from Bitcoin
@@ -26,6 +26,6 @@ export default function WalletReceive() {
       <Button kind="secondary" href={`/wallets/${walletId}`}>
         Go back
       </Button>
-    </Page>
+    </PageContainer>
   );
 }

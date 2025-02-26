@@ -8,7 +8,7 @@ import { FaArrowDown, FaArrowUp, FaCopy } from "react-icons/fa";
 import { getStoredWallet } from "@/app/storage";
 import Button from "@/app/components/button";
 import Loader from "@/app/components/loader";
-import Page from "@/app/components/page";
+import PageContainer from "@/app/components/pageContainer";
 import ButtonsContainer from "@/app/components/buttonsContainer";
 
 type Wallet = {
@@ -31,23 +31,24 @@ export default function Wallet() {
     const storedWallet = getStoredWallet(walletId);
     sparkWallet.initWalletFromMnemonic(storedWallet.mnemonic).then(() => {
       sparkWallet.getIdentityPublicKey().then((pubkey) => {
+        console.log("CALLING GET BALANCE", sparkWallet);
         sparkWallet.getBalance().then((balance) => {
           setWallet({ sparkWallet, balance: balance as bigint, pubkey });
         });
       });
     });
-  }, [walletId, setWallet]);
+  }, []);
 
   if (!wallet) {
     return (
-      <Page>
+      <PageContainer>
         <Loader />
-      </Page>
+      </PageContainer>
     );
   }
 
   return (
-    <Page>
+    <PageContainer>
       <div className="w-full">
         <p>
           <b>Pubkey</b>
@@ -92,6 +93,6 @@ export default function Wallet() {
           Go back to wallets
         </Button>
       </ButtonsContainer>
-    </Page>
+    </PageContainer>
   );
 }

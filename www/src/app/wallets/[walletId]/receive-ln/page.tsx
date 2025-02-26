@@ -5,7 +5,7 @@ import { Network } from "@buildonspark/spark-sdk/utils";
 import { useState } from "react";
 import { useParams } from "next/navigation";
 import Button from "@/app/components/button";
-import Page from "@/app/components/page";
+import PageContainer from "@/app/components/pageContainer";
 import { getStoredWallet } from "@/app/storage";
 import ButtonsContainer from "@/app/components/buttonsContainer";
 
@@ -20,7 +20,7 @@ export default function WalletReceiveLn() {
 
   if (invoice === null) {
     return (
-      <Page>
+      <PageContainer>
         <p>
           Use this form to generate a Lightning Network invoice for receiving
           funds in your wallet.
@@ -78,12 +78,12 @@ export default function WalletReceiveLn() {
             Go back
           </Button>
         </ButtonsContainer>
-      </Page>
+      </PageContainer>
     );
   }
 
   return (
-    <Page>
+    <PageContainer>
       <p>Share this Lightning Network invoice with the sender!</p>
       <p className="break-words max-w-[250px]">{invoice}</p>
       <ButtonsContainer>
@@ -104,6 +104,6 @@ export default function WalletReceiveLn() {
           Go back
         </Button>
       </ButtonsContainer>
-    </Page>
+    </PageContainer>
   );
 }

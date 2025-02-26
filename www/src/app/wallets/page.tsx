@@ -13,7 +13,7 @@ import {
 import Button from "@/app/components/button";
 import ButtonsContainer from "@/app/components/buttonsContainer";
 import Loader from "@/app/components/loader";
-import Page from "@/app/components/page";
+import PageContainer from "@/app/components/pageContainer";
 
 type Wallet = {
   id: string;
@@ -58,7 +58,7 @@ function WalletItem(props: WalletProps) {
         });
       });
     });
-  }, [mnemonic, setWallet]);
+  }, []);
 
   if (!wallet) {
     return (
@@ -93,7 +93,7 @@ export default function Wallets() {
   }, [setWallets]);
 
   return (
-    <Page>
+    <PageContainer>
       {wallets.map((wallet) => (
         <WalletItem key={wallet.id} storedWallet={wallet} />
       ))}
@@ -114,6 +114,6 @@ export default function Wallets() {
           Clear wallets
         </Button>
       </ButtonsContainer>
-    </Page>
+    </PageContainer>
   );
 }

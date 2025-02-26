@@ -5,7 +5,7 @@ import { validateMnemonic } from "bip39";
 import { useRouter } from "next/navigation";
 import Button from "@/app/components/button";
 import ButtonsContainer from "@/app/components/buttonsContainer";
-import Page from "@/app/components/page";
+import PageContainer from "@/app/components/pageContainer";
 import { addStoredWallet } from "@/app/storage";
 
 export default function RecoverWallet() {
@@ -13,7 +13,7 @@ export default function RecoverWallet() {
   const router = useRouter();
 
   return (
-    <Page>
+    <PageContainer>
       <p>Enter your mnemonic phrase below to recover your wallet.</p>
       <textarea
         value={mnemonic}
@@ -39,6 +39,6 @@ export default function RecoverWallet() {
           Go back
         </Button>
       </ButtonsContainer>
-    </Page>
+    </PageContainer>
   );
 }

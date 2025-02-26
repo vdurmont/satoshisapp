@@ -5,7 +5,7 @@ import { Network } from "@buildonspark/spark-sdk/utils";
 import { useEffect, useState } from "react";
 import { useParams } from "next/navigation";
 import Button from "@/app/components/button";
-import Page from "@/app/components/page";
+import PageContainer from "@/app/components/pageContainer";
 import Loader from "@/app/components/loader";
 import { getStoredWallet } from "@/app/storage";
 
@@ -37,15 +37,15 @@ export default function WalletDepositBtc() {
 
   if (!address) {
     return (
-      <Page>
+      <PageContainer>
         <Loader />
-      </Page>
+      </PageContainer>
     );
   }
 
   const verifKey = Buffer.from(address.verifyingKey).toString("hex");
   return (
-    <Page>
+    <PageContainer>
       <p>
         You can use this address to safely deposit BTC into your wallet. Your
         balance will increase when the deposit is confirmed!
@@ -85,6 +85,6 @@ export default function WalletDepositBtc() {
       <Button kind="primary" href={`/wallets/${walletId}`}>
         Go back
       </Button>
-    </Page>
+    </PageContainer>
   );
 }

@@ -5,7 +5,7 @@ import { Network } from "@buildonspark/spark-sdk/utils";
 import { useState } from "react";
 import { useParams } from "next/navigation";
 import Button from "@/app/components/button";
-import Page from "@/app/components/page";
+import PageContainer from "@/app/components/pageContainer";
 import { getStoredWallet } from "@/app/storage";
 import ButtonsContainer from "@/app/components/buttonsContainer";
 
@@ -18,7 +18,7 @@ export default function WalletSendLn() {
 
   if (step === 0) {
     return (
-      <Page>
+      <PageContainer>
         <p>
           Use this form to pay a Lightning Network invoice from your wallet.
         </p>
@@ -54,13 +54,13 @@ export default function WalletSendLn() {
             Go back
           </Button>
         </ButtonsContainer>
-      </Page>
+      </PageContainer>
     );
   }
 
   if (step === 1) {
     return (
-      <Page>
+      <PageContainer>
         <p>Review the details of the invoice below.</p>
         <ButtonsContainer>
           <Button
@@ -93,20 +93,20 @@ export default function WalletSendLn() {
             Go back
           </Button>
         </ButtonsContainer>
-      </Page>
+      </PageContainer>
     );
   }
 
   if (step === 2) {
     return (
-      <Page>
+      <PageContainer>
         <p>The payment was successful!</p>
         <ButtonsContainer>
           <Button kind="primary" href={`/wallets/${walletId}`}>
             Go back
           </Button>
         </ButtonsContainer>
-      </Page>
+      </PageContainer>
     );
   }
 }
