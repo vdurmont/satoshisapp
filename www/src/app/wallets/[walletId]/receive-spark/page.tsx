@@ -1,14 +1,40 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useParams } from "next/navigation";
 import Button from "@/app/components/button";
 import PageContainer from "@/app/components/pageContainer";
+import Loader from "@/app/components/loader";
+import { SparkWallet } from "@buildonspark/spark-sdk";
+import { Network } from "@buildonspark/spark-sdk/utils";
+import { getStoredWallet } from "@/app/storage";
 
 export default function WalletReceiveSpark() {
+  const [pubkey, setPubkey] = useState<string | null>();
   const [copyText, setCopyText] = useState("Copy address to clipboard");
   const params = useParams();
-  const pubkey = params.pubkey as string;
+  const walletId = params.walletId as string;
+
+  useEffect(() => {
+    if (!walletId) {
+      return;
+    }
+    const sparkWallet = new SparkWallet(Network.REGTEST);
+    const storedWallet = getStoredWallet(walletId);
+    sparkWallet.initWalletFromMnemonic(storedWallet.mnemonic).then(() => {
+      sparkWallet.getIdentityPublicKey().then((pubkey) => {
+        setPubkey(pubkey);
+      });
+    });
+  }, []);
+
+  if (!pubkey) {
+    return (
+      <PageContainer>
+        <Loader />
+      </PageContainer>
+    );
+  }
 
   return (
     <PageContainer>
@@ -27,7 +53,7 @@ export default function WalletReceiveSpark() {
       >
         {copyText}
       </Button>
-      <Button kind="primary" href={`/wallets/${pubkey}`}>
+      <Button kind="primary" href={`/wallets/${walletId}`}>
         Go back
       </Button>
     </PageContainer>

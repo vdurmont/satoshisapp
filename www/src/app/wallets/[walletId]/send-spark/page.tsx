@@ -41,6 +41,7 @@ export default function WalletSendSpark() {
       </label>
       <Button
         kind="primary"
+        loading={loading}
         disabled={loading || !idKey || !amount}
         onClick={() => {
           setLoading(true);
@@ -59,8 +60,7 @@ export default function WalletSendSpark() {
           });
         }}
       >
-        {loading ? <FaSync className="animate-spin" /> : null}
-        Send transfer
+        {loading ? "Sending..." : "Send transfer"}
       </Button>
       <Button kind="secondary" href={`/wallets/${walletId}`}>
         Go back

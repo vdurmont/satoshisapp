@@ -21,7 +21,8 @@ export default function Button(props: Props) {
         props.kind === "primary" &&
           "border-transparent bg-foreground text-background hover:bg-[#383838] dark:hover:bg-[#ccc]",
         props.kind === "secondary" &&
-          "border-foreground bg-background text-foreground dark:hover:bg-[#383838] hover:bg-[#ccc]"
+          "border-foreground bg-background text-foreground dark:hover:bg-[#383838] hover:bg-[#ccc]",
+        props.disabled && "cursor-not-allowed bg-[#ccc]"
       )}
       href={props.href || "#"}
       onClick={(e) => {
