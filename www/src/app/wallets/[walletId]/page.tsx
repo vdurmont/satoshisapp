@@ -9,12 +9,13 @@ import {
   FaCopy,
   FaCheckCircle,
   FaEye,
+  FaSync,
 } from "react-icons/fa";
 import Button from "@/app/components/button";
 import Loader from "@/app/components/loader";
 import PageContainer from "@/app/components/pageContainer";
 import ButtonsContainer from "@/app/components/buttonsContainer";
-import { getOrInitCachedWallet } from "@/app/walletCache";
+import { deleteWallet, getOrInitCachedWallet } from "@/app/walletCache";
 
 type Wallet = {
   balance: bigint;
@@ -24,6 +25,7 @@ type Wallet = {
 
 export default function Wallet() {
   const [wallet, setWallet] = useState<Wallet | null>(null);
+  const [syncing, setSyncing] = useState(false);
   const [pubkeyCopied, setPubkeyCopied] = useState(false);
   const [mnemonicCopied, setMnemonicCopied] = useState(false);
   const [revealMnemonic, setRevealMnemonic] = useState(false);
@@ -139,6 +141,28 @@ export default function Wallet() {
         <Button kind="primary" href={`/wallets/${walletId}/receive`}>
           <FaArrowDown />
           Receive
+        </Button>
+        <Button
+          kind="primary"
+          disabled={syncing}
+          loading={syncing}
+          onClick={() => {
+            setSyncing(true);
+            deleteWallet(walletId);
+            getOrInitCachedWallet(walletId).then((cachedWallet) => {
+              cachedWallet.sparkWallet.getSparkAddress().then((pubkey) => {
+                setWallet({
+                  balance: cachedWallet.balance,
+                  mnemonic: cachedWallet.mnemonic,
+                  pubkey,
+                });
+                setSyncing(false);
+              });
+            });
+          }}
+        >
+          {syncing ? null : <FaSync />}
+          Synchronize wallet
         </Button>
         <Button kind="secondary" href="/wallets">
           Go back to wallets
