@@ -57,19 +57,16 @@ export default function WalletReceiveLn() {
               setLoading(true);
               const sparkWallet = new SparkWallet(Network.REGTEST);
               const storedWallet = getStoredWallet(walletId);
-              sparkWallet
-                .initWalletFromMnemonic(storedWallet.mnemonic)
-                .then(() => {
-                  sparkWallet
-                    .createLightningInvoice({
-                      amountSats: parseInt(amount),
-                      memo,
-                      expirySeconds: 3600,
-                    })
-                    .then((invoice) => {
-                      setInvoice(invoice);
-                    });
-                });
+              sparkWallet.initWallet(storedWallet.mnemonic).then(() => {
+                sparkWallet
+                  .createLightningInvoice({
+                    amountSats: parseInt(amount),
+                    memo,
+                  })
+                  .then((invoice) => {
+                    setInvoice(invoice);
+                  });
+              });
             }}
           >
             {loading ? "Creating invoice..." : "Create invoice"}

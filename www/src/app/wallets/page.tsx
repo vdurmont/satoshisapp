@@ -51,11 +51,9 @@ function WalletItem(props: WalletProps) {
 
   useEffect(() => {
     const sparkWallet = new SparkWallet(Network.REGTEST);
-    sparkWallet.initWalletFromMnemonic(mnemonic).then(() => {
-      sparkWallet.getIdentityPublicKey().then((pubkey) => {
-        sparkWallet.getBalance().then((balance) => {
-          setWallet({ sparkWallet, balance: balance as bigint, id, pubkey });
-        });
+    sparkWallet.initWallet(mnemonic).then((res) => {
+      sparkWallet.getSparkAddress().then((pubkey) => {
+        setWallet({ sparkWallet, balance: res.balance as bigint, id, pubkey });
       });
     });
   }, []);
@@ -107,8 +105,15 @@ export default function Wallets() {
         <Button
           kind="secondary"
           onClick={() => {
-            clearStoredWallets();
-            location.reload();
+            if (
+              confirm(
+                "Are you sure you want to clear all the wallets? " +
+                  "You can recover them using the mnemonics you saved during the creation process."
+              )
+            ) {
+              clearStoredWallets();
+              location.reload();
+            }
           }}
         >
           Clear wallets

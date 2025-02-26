@@ -4,7 +4,13 @@ import { SparkWallet } from "@buildonspark/spark-sdk";
 import { Network } from "@buildonspark/spark-sdk/utils";
 import { useEffect, useState } from "react";
 import { useParams } from "next/navigation";
-import { FaArrowDown, FaArrowUp, FaCopy } from "react-icons/fa";
+import {
+  FaArrowDown,
+  FaArrowUp,
+  FaCopy,
+  FaCheckCircle,
+  FaEye,
+} from "react-icons/fa";
 import { getStoredWallet } from "@/app/storage";
 import Button from "@/app/components/button";
 import Loader from "@/app/components/loader";
@@ -15,11 +21,14 @@ type Wallet = {
   sparkWallet: SparkWallet;
   balance: bigint;
   pubkey: string;
+  mnemonic: string;
 };
 
 export default function Wallet() {
   const [wallet, setWallet] = useState<Wallet | null>(null);
-  const [copyText, setCopyText] = useState("");
+  const [pubkeyCopied, setPubkeyCopied] = useState(false);
+  const [mnemonicCopied, setMnemonicCopied] = useState(false);
+  const [revealMnemonic, setRevealMnemonic] = useState(false);
   const params = useParams();
   const walletId = params.walletId as string;
 
@@ -29,10 +38,13 @@ export default function Wallet() {
     }
     const sparkWallet = new SparkWallet(Network.REGTEST);
     const storedWallet = getStoredWallet(walletId);
-    sparkWallet.initWalletFromMnemonic(storedWallet.mnemonic).then(() => {
-      sparkWallet.getIdentityPublicKey().then((pubkey) => {
-        sparkWallet.getBalance().then((balance) => {
-          setWallet({ sparkWallet, balance: balance as bigint, pubkey });
+    sparkWallet.initWallet(storedWallet.mnemonic).then((res) => {
+      sparkWallet.getSparkAddress().then((pubkey) => {
+        setWallet({
+          sparkWallet,
+          balance: res.balance as bigint,
+          mnemonic: storedWallet.mnemonic,
+          pubkey,
         });
       });
     });
@@ -46,6 +58,9 @@ export default function Wallet() {
     );
   }
 
+  const PubkeyCopyIcon = pubkeyCopied ? FaCheckCircle : FaCopy;
+  const MnemonicCopyIcon = mnemonicCopied ? FaCheckCircle : FaCopy;
+
   return (
     <PageContainer>
       <div className="w-full">
@@ -57,20 +72,17 @@ export default function Wallet() {
             {wallet.pubkey.substring(0, 15)}...
             {wallet.pubkey.substring(wallet.pubkey.length - 15)}
           </span>
-          {copyText ? null : (
-            <FaCopy
-              className="cursor-pointer"
-              onClick={() => {
-                navigator.clipboard.writeText(wallet.pubkey).then(() => {
-                  setCopyText("Copied!");
-                  setTimeout(() => {
-                    setCopyText("");
-                  }, 1000);
-                });
-              }}
-            />
-          )}
-          {copyText ? <span className="text-sm">{copyText}</span> : null}
+          <PubkeyCopyIcon
+            className="cursor-pointer"
+            onClick={() => {
+              navigator.clipboard.writeText(wallet.pubkey).then(() => {
+                setPubkeyCopied(true);
+                setTimeout(() => {
+                  setPubkeyCopied(false);
+                }, 1000);
+              });
+            }}
+          />
         </p>
       </div>
       <div className="w-full">
@@ -78,6 +90,51 @@ export default function Wallet() {
           <b>Balance</b>
         </p>
         <p>{String(wallet.balance)} sats</p>
+      </div>
+      <div className="w-full">
+        <p>
+          <b>Mnemonic phrase</b>
+        </p>
+        <div className="flex flex-row items-center">
+          {revealMnemonic ? (
+            <>
+              <span className="font-mono">{wallet.mnemonic}</span>
+              <p>
+                <MnemonicCopyIcon
+                  className="cursor-pointer"
+                  onClick={() => {
+                    navigator.clipboard.writeText(wallet.mnemonic).then(() => {
+                      setMnemonicCopied(true);
+                      setTimeout(() => {
+                        setMnemonicCopied(false);
+                      }, 1000);
+                    });
+                  }}
+                />
+              </p>
+            </>
+          ) : (
+            <>
+              <a
+                className="mr-2"
+                href="#"
+                onClick={(e) => {
+                  e.preventDefault();
+                  setRevealMnemonic(true);
+                }}
+              >
+                Reveal
+              </a>
+              <FaEye
+                className="cursor-pointer"
+                onClick={(e) => {
+                  e.preventDefault();
+                  setRevealMnemonic(true);
+                }}
+              />
+            </>
+          )}
+        </div>
       </div>
       <ButtonsContainer>
         <Button kind="primary" href={`/wallets/${walletId}/send`}>
