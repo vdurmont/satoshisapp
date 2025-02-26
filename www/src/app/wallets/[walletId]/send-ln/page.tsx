@@ -6,6 +6,7 @@ import Button from "@/app/components/button";
 import PageContainer from "@/app/components/pageContainer";
 import ButtonsContainer from "@/app/components/buttonsContainer";
 import { getOrInitCachedWallet } from "@/app/walletCache";
+import bolt11 from "bolt11";
 
 export default function WalletSendLn() {
   const [invoice, setInvoice] = useState("");
@@ -46,9 +47,28 @@ export default function WalletSendLn() {
   }
 
   if (step === 1) {
+    const decoded = bolt11.decode(invoice);
+    console.log("decoded", decoded);
+    const memo = decoded.tagsObject.description;
     return (
       <PageContainer>
         <p>Review the details of the invoice below.</p>
+        <p>
+          <b>Amount</b>
+        </p>
+        <p>{decoded.millisatoshis} millisatoshis</p>
+        <p>
+          <b>Expires date</b>
+        </p>
+        <p>{decoded.timeExpireDateString}</p>
+        {memo ? (
+          <>
+            <p>
+              <b>Memo</b>
+            </p>
+            <p>{memo}</p>
+          </>
+        ) : null}
         <ButtonsContainer>
           <Button
             kind="primary"
