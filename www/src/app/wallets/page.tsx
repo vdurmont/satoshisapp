@@ -56,7 +56,7 @@ function WalletItem(props: WalletProps) {
         setWallet({ sparkWallet, balance: res.balance as bigint, id, pubkey });
       });
     });
-  });
+  }, [setWallet]);
 
   if (!wallet) {
     return (
@@ -88,7 +88,7 @@ export default function Wallets() {
 
   useEffect(() => {
     setWallets(getAllStoredWallets());
-  });
+  }, [setWallets]);
 
   return (
     <PageContainer>

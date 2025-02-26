@@ -26,7 +26,7 @@ export default function WalletReceiveSpark() {
         setPubkey(pubkey);
       });
     });
-  });
+  }, [walletId, setPubkey]);
 
   if (!pubkey) {
     return (

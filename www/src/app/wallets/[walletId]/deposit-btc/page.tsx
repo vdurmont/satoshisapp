@@ -28,7 +28,7 @@ export default function WalletDepositBtc() {
         setAddress(address);
       });
     });
-  });
+  }, [walletId, setAddress]);
 
   if (!address) {
     return (
