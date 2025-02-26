@@ -15,7 +15,6 @@ export default function WalletDepositBtc() {
   const [copyAddressText, setCopyAddressText] = useState(
     "Copy address to clipboard"
   );
-  const [copyVerifText, setCopyVerifText] = useState("Copy key to clipboard");
   const params = useParams();
   const walletId = params.walletId as string;
 
@@ -40,7 +39,6 @@ export default function WalletDepositBtc() {
     );
   }
 
-  const verifKey = Buffer.from(address.verifyingKey).toString("hex");
   return (
     <PageContainer>
       <p>
@@ -48,7 +46,7 @@ export default function WalletDepositBtc() {
         balance will increase when the deposit is confirmed!
       </p>
       <p className="break-words max-w-[250px]">
-        <b>Address:</b> {address.address}
+        <b>Address:</b> {address}
       </p>
       <Button
         kind="secondary"
@@ -62,22 +60,6 @@ export default function WalletDepositBtc() {
         }}
       >
         {copyAddressText}
-      </Button>
-      <p className="break-words max-w-[250px]">
-        <b>Verifying Key:</b> {verifKey}
-      </p>
-      <Button
-        kind="secondary"
-        onClick={() => {
-          navigator.clipboard.writeText(verifKey).then(() => {
-            setCopyVerifText("Copied!");
-            setTimeout(() => {
-              setCopyVerifText("Copy key to clipboard");
-            }, 2000);
-          });
-        }}
-      >
-        {copyVerifText}
       </Button>
       <Button kind="primary" href={`/wallets/${walletId}`}>
         Go back
