@@ -48,7 +48,7 @@ export default function Wallet() {
 
   return (
     <Page>
-      <div>
+      <div className="w-full">
         <p>
           <b>Pubkey</b>
         </p>
@@ -73,7 +73,7 @@ export default function Wallet() {
           {copyText ? <span className="text-sm">{copyText}</span> : null}
         </p>
       </div>
-      <div>
+      <div className="w-full">
         <p>
           <b>Balance</b>
         </p>
