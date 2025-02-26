@@ -5,14 +5,23 @@ import { useParams } from "next/navigation";
 import Button from "@/app/components/button";
 import PageContainer from "@/app/components/pageContainer";
 import ButtonsContainer from "@/app/components/buttonsContainer";
-import { getOrInitCachedWallet } from "@/app/walletCache";
+import { getOrInitCachedWallet, refreshWallet } from "@/app/walletCache";
 import bolt11 from "bolt11";
+import { useRouter } from "next/navigation";
+
+enum Status {
+  None,
+  Paying,
+  Syncing,
+}
 
 export default function WalletSendLn() {
   const [invoice, setInvoice] = useState("");
+  const [status, setStatus] = useState<Status>(Status.None);
   const [step, setStep] = useState(0);
   const params = useParams();
   const walletId = params.walletId as string;
+  const router = useRouter();
 
   if (step === 0) {
     return (
@@ -47,8 +56,20 @@ export default function WalletSendLn() {
   }
 
   if (step === 1) {
+    let buttonText;
+    switch (status) {
+      case Status.None:
+        buttonText = "Pay Invoice";
+        break;
+      case Status.Paying:
+        buttonText = "Paying invoice...";
+        break;
+      case Status.Syncing:
+        buttonText = "Syncing wallet...";
+        break;
+    }
+
     const decoded = bolt11.decode(invoice);
-    console.log("decoded", decoded);
     const memo = decoded.tagsObject.description;
     return (
       <PageContainer>
@@ -72,17 +93,23 @@ export default function WalletSendLn() {
         <ButtonsContainer>
           <Button
             kind="primary"
+            loading={status !== Status.None}
+            disabled={status !== Status.None}
             onClick={() => {
+              setStatus(Status.Paying);
               getOrInitCachedWallet(walletId).then((cachedWallet) => {
                 cachedWallet.sparkWallet
                   .payLightningInvoice({ invoice })
                   .then(() => {
-                    setStep(2);
+                    setStatus(Status.Syncing);
+                    refreshWallet(walletId).then(() => {
+                      router.push(`/wallets/${walletId}`);
+                    });
                   });
               });
             }}
           >
-            Pay Invoice
+            {buttonText}
           </Button>
           <Button
             disabled={!invoice}
@@ -91,19 +118,6 @@ export default function WalletSendLn() {
               setStep(0);
             }}
           >
-            Go back
-          </Button>
-        </ButtonsContainer>
-      </PageContainer>
-    );
-  }
-
-  if (step === 2) {
-    return (
-      <PageContainer>
-        <p>The payment was successful!</p>
-        <ButtonsContainer>
-          <Button kind="primary" href={`/wallets/${walletId}`}>
             Go back
           </Button>
         </ButtonsContainer>
