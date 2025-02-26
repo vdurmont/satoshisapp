@@ -1,12 +1,10 @@
 "use client";
 
-import { SparkWallet } from "@buildonspark/spark-sdk";
-import { Network } from "@buildonspark/spark-sdk/utils";
 import { useState } from "react";
 import { useParams, useRouter } from "next/navigation";
 import Button from "@/app/components/button";
 import PageContainer from "@/app/components/pageContainer";
-import { getStoredWallet } from "@/app/storage";
+import { getOrInitCachedWallet } from "@/app/walletCache";
 
 export default function WalletSendSpark() {
   const [loading, setLoading] = useState(false);
@@ -44,10 +42,8 @@ export default function WalletSendSpark() {
         disabled={loading || !idKey || !amount}
         onClick={() => {
           setLoading(true);
-          const sparkWallet = new SparkWallet(Network.REGTEST);
-          const storedWallet = getStoredWallet(walletId);
-          sparkWallet.initWallet(storedWallet.mnemonic).then(() => {
-            sparkWallet
+          getOrInitCachedWallet(walletId).then((cachdeWallet) => {
+            cachdeWallet.sparkWallet
               .sendSparkTransfer({
                 amount: parseInt(amount),
                 receiverSparkAddress: idKey,

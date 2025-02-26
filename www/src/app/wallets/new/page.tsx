@@ -144,6 +144,9 @@ export default function NewWallet() {
           </Button>
         </>
       ) : null}
+      <Button kind="secondary" href="/wallets">
+        Back to wallets list
+      </Button>
     </PageContainer>
   );
 }

@@ -1,7 +1,6 @@
 "use client";
 
 import { SparkWallet } from "@buildonspark/spark-sdk";
-import { Network } from "@buildonspark/spark-sdk/utils";
 import { useEffect, useState } from "react";
 import { useParams } from "next/navigation";
 import {
@@ -11,14 +10,13 @@ import {
   FaCheckCircle,
   FaEye,
 } from "react-icons/fa";
-import { getStoredWallet } from "@/app/storage";
 import Button from "@/app/components/button";
 import Loader from "@/app/components/loader";
 import PageContainer from "@/app/components/pageContainer";
 import ButtonsContainer from "@/app/components/buttonsContainer";
+import { getOrInitCachedWallet } from "@/app/walletCache";
 
 type Wallet = {
-  sparkWallet: SparkWallet;
   balance: bigint;
   pubkey: string;
   mnemonic: string;
@@ -36,14 +34,11 @@ export default function Wallet() {
     if (!walletId) {
       return;
     }
-    const sparkWallet = new SparkWallet(Network.REGTEST);
-    const storedWallet = getStoredWallet(walletId);
-    sparkWallet.initWallet(storedWallet.mnemonic).then((res) => {
-      sparkWallet.getSparkAddress().then((pubkey) => {
+    getOrInitCachedWallet(walletId).then((cachedWallet) => {
+      cachedWallet.sparkWallet.getSparkAddress().then((pubkey) => {
         setWallet({
-          sparkWallet,
-          balance: res.balance as bigint,
-          mnemonic: storedWallet.mnemonic,
+          balance: cachedWallet.balance,
+          mnemonic: cachedWallet.mnemonic,
           pubkey,
         });
       });

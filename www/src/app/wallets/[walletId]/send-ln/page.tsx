@@ -1,13 +1,11 @@
 "use client";
 
-import { SparkWallet } from "@buildonspark/spark-sdk";
-import { Network } from "@buildonspark/spark-sdk/utils";
 import { useState } from "react";
 import { useParams } from "next/navigation";
 import Button from "@/app/components/button";
 import PageContainer from "@/app/components/pageContainer";
-import { getStoredWallet } from "@/app/storage";
 import ButtonsContainer from "@/app/components/buttonsContainer";
+import { getOrInitCachedWallet } from "@/app/walletCache";
 
 export default function WalletSendLn() {
   const [invoice, setInvoice] = useState("");
@@ -55,12 +53,12 @@ export default function WalletSendLn() {
           <Button
             kind="primary"
             onClick={() => {
-              const sparkWallet = new SparkWallet(Network.REGTEST);
-              const storedWallet = getStoredWallet(walletId);
-              sparkWallet.initWallet(storedWallet.mnemonic).then(() => {
-                sparkWallet.payLightningInvoice({ invoice }).then(() => {
-                  setStep(2);
-                });
+              getOrInitCachedWallet(walletId).then((cachedWallet) => {
+                cachedWallet.sparkWallet
+                  .payLightningInvoice({ invoice })
+                  .then(() => {
+                    setStep(2);
+                  });
               });
             }}
           >

@@ -5,9 +5,7 @@ import { useParams } from "next/navigation";
 import Button from "@/app/components/button";
 import PageContainer from "@/app/components/pageContainer";
 import Loader from "@/app/components/loader";
-import { SparkWallet } from "@buildonspark/spark-sdk";
-import { Network } from "@buildonspark/spark-sdk/utils";
-import { getStoredWallet } from "@/app/storage";
+import { getOrInitCachedWallet } from "@/app/walletCache";
 
 export default function WalletReceiveSpark() {
   const [pubkey, setPubkey] = useState<string | null>();
@@ -19,10 +17,8 @@ export default function WalletReceiveSpark() {
     if (!walletId) {
       return;
     }
-    const sparkWallet = new SparkWallet(Network.REGTEST);
-    const storedWallet = getStoredWallet(walletId);
-    sparkWallet.initWallet(storedWallet.mnemonic).then(() => {
-      sparkWallet.getSparkAddress().then((pubkey) => {
+    getOrInitCachedWallet(walletId).then((cachedWallet) => {
+      cachedWallet.sparkWallet.getSparkAddress().then((pubkey) => {
         setPubkey(pubkey);
       });
     });
