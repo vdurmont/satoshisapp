@@ -45,6 +45,20 @@ export default function Wallet() {
       });
     });
   }, [walletId, setWallet]);
+  useEffect(() => {
+    if (!walletId) {
+      return;
+    }
+    getOrInitCachedWallet(walletId).then((cachedWallet) => {
+      cachedWallet.sparkWallet.getSparkAddress().then((pubkey) => {
+        setWallet({
+          balance: cachedWallet.balance,
+          mnemonic: cachedWallet.mnemonic,
+          pubkey,
+        });
+      });
+    });
+  }, [walletId, setWallet]);
 
   if (!wallet) {
     return (
