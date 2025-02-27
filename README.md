@@ -2,6 +2,8 @@
 
 This is demo web application to explore the features offered by the Spark Wallet SDK. See more at https://spark.info
 
+You can see the demo at: https://satoshisapp.com
+
 The project is based on [Next.js](https://nextjs.org).
 
 ## Getting Started
