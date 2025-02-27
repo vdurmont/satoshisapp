@@ -46,7 +46,7 @@ export default function WalletSendSpark() {
           getOrInitCachedWallet(walletId).then((cachdeWallet) => {
             cachdeWallet.sparkWallet
               .sendSparkTransfer({
-                amount: parseInt(amount),
+                amountSats: parseInt(amount),
                 receiverSparkAddress: idKey,
               })
               .then(() => {
